@@ -1,5 +1,5 @@
-import { mainMenuLayout } from "@/components/layouts";
-const Home = () => import("@/views/Home.vue");
+// import { mainMenuLayout } from "@/components/layouts";
+// const Home = () => import("@/views/Home.vue");
 
 /**
  * 基础路由
@@ -7,34 +7,30 @@ const Home = () => import("@/views/Home.vue");
  */
 export const constantRouterMap = [
   {
-    path: "/404",
-    component: () =>
-      import(/* webpackChunkName: "fail" */ "@/views/exception/404")
+    path: "*",
+    component: NotFound
   },
   {
     path: "/",
-    name: "systemchannel",
-    component: mainMenuLayout,
-    meta: { title: "轨迹管理" },
-    redirect: "/dashboard/workplace",
+    component: () =>
+      import("@/layout/BaseLayout"),
+    meta: { title: "渠道中心" },
     children: [
       {
-        path: "/offline",
-        name: "offline",
-        redirect: "/offline",
-        component: mainMenuLayout,
+        path: "/channel",
+        name: "channel",
         meta: {
-          title: "离线工作台",
-          icon: "dashboard",
-          permission: ["dashboard"]
+          title: "轨迹",
+          // icon: "dashboard",
+          // permission: ["dashboard"]
         },
         children: [
           {
-            path: "/offline/auto/:code",
-            title: "TIS跟进工作台",
-            name: "report",
+            path: "/channel/work/",
+            title: "轨迹管理",
+            name: "work",
             component: () =>
-              import("@/views/modules/online/cgreport/OnlCgreportAutoList")
+              import("@views/channel/index")
           }
         ]
       }
