@@ -50,7 +50,6 @@ module.exports = {
       .set("@api", resolve("src/api"))
       .set("@assets", resolve("src/assets"))
       .set("@comp", resolve("src/components"))
-      .set("@layout", resolve("src/layout"))
       .set("@views", resolve("src/views"));
 
     if (process.env.NODE_ENV === "production") {

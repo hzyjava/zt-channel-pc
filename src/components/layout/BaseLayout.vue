@@ -19,15 +19,11 @@
           <SiderMenu />
         </a-layout-sider>
         <a-layout class="right-box" style="padding: 0 24px 24px">
-          <!-- <a-layout class="right-box-header" style="padding: 0 24px 24px">
-
-        </a-layout> -->
           <a-breadcrumb style="margin: 16px 0">
             <a-breadcrumb-item>Home</a-breadcrumb-item>
             <a-breadcrumb-item>List</a-breadcrumb-item>
             <a-breadcrumb-item>App</a-breadcrumb-item>
           </a-breadcrumb>
-
           <a-layout-content
             class="right-box-content"
             :style="{
@@ -46,8 +42,8 @@
 </template>
 
 <script>
-import Header from "@layout/Header";
-import SiderMenu from "@layout/SiderMenu";
+import Header from "@comp/layout/Header";
+import SiderMenu from "@comp/layout/SiderMenu";
 export default {
   components: {
     Header,

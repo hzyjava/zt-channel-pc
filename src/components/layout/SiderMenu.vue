@@ -10,11 +10,10 @@
         <span slot="title"><a-icon type="user" />subnav 1</span>
         <a-menu-item key="1">option1 </a-menu-item>
         <a-menu-item key="2">
-          <router-link to="/work"> option2</router-link>
+          <router-link to="/channel/work"> option2</router-link>
         </a-menu-item>
-
         <a-menu-item key="3">
-          <router-link to="/channel/index"> option3</router-link>
+          <router-link to="/channel/mannerger"> option3</router-link>
         </a-menu-item>
         <a-menu-item key="4">
           option4
