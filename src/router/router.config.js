@@ -6,21 +6,20 @@
  * @type { *[] }
  */
 export const constantRouterMap = [
-  {
-    path: "*",
-    component: NotFound
-  },
+  // {
+  //   path: "*",
+  //   component: NotFound
+  // },
   {
     path: "/",
-    component: () =>
-      import("@/layout/BaseLayout"),
+    component: () => import("@/layout/BaseLayout"),
     meta: { title: "渠道中心" },
     children: [
       {
         path: "/channel",
         name: "channel",
         meta: {
-          title: "轨迹",
+          title: "轨迹"
           // icon: "dashboard",
           // permission: ["dashboard"]
         },
@@ -29,8 +28,7 @@ export const constantRouterMap = [
             path: "/channel/work/",
             title: "轨迹管理",
             name: "work",
-            component: () =>
-              import("@views/channel/index")
+            component: () => import("@views/channel/index")
           }
         ]
       }

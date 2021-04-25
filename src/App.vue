@@ -1,15 +1,14 @@
 <template>
   <div id="app">
-    <BaseLayout/>
+    <BaseLayout />
   </div>
 </template>
 <script>
-
-import BaseLayout from '@layout/BaseLayout'
+import BaseLayout from "@layout/BaseLayout";
 
 export default {
-  components:{BaseLayout}
-}
+  components: { BaseLayout }
+};
 </script>
 <style lang="scss">
 #app {
@@ -19,5 +18,4 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-
 </style>

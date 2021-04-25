@@ -12,6 +12,7 @@
     "publish": "vue-cli-service build --mode production"
   },
   "dependencies": {
+    "ant-design-vue": "^1.7.4",
     "compression-webpack-plugin": "^7.1.2",
     "core-js": "^3.6.5",
     "eslint-config-airbnb": "^18.2.1",
