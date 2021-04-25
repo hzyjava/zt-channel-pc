@@ -13,10 +13,10 @@
           collapsed-width="0"
           @collapse="onCollapse"
           @breakpoint="onBreakpoint"
-          width="200"
+          width="256"
           style="background: #fff"
         >
-          <SiderMenu />
+          <SiderMenu :theme="theme" />
         </a-layout-sider>
         <a-layout class="right-box" style="padding: 0 24px 24px">
           <a-breadcrumb style="margin: 16px 0">
@@ -51,6 +51,7 @@ export default {
   },
   data() {
     return {
+      theme:"dark",
       collapsed: false
     };
   },

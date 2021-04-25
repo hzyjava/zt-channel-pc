@@ -1,60 +1,92 @@
 <template>
-  <div>
+  <div style="width: 256px">
+    <!-- <a-button type="primary" style="margin-bottom: 16px" @click="toggleCollapsed">
+      <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
+    </a-button> -->
+    
+      <!-- :inline-collapsed="collapsed"  -->
     <a-menu
+      :selectedKeys="selectedKeys"
+      :openKeys.sync="openKeys"
       mode="inline"
-      :default-selected-keys="['1']"
-      :default-open-keys="['sub1']"
-      :style="{ height: '100%', borderRight: 0 }"
+      :theme="theme"
     >
-      <a-sub-menu key="sub1">
-        <span slot="title"><a-icon type="user" />subnav 1</span>
-        <a-menu-item key="1">option1 </a-menu-item>
-        <a-menu-item key="2">
-          <router-link to="/channel/work/tiswork"> option2</router-link>
+      <template v-for="item in menuData">
+        <a-menu-item v-if="!item.children" :key="item.path" @click="()=>{$router.push({path:item.path,query:$route.query})}">
+          <a-icon v-if="item.meta.icon" :type="item.meta.icon" />
+          <span>{{ item.meta.title }}</span>
         </a-menu-item>
-        <a-menu-item key="3">
-          <router-link to="/channel/work/tisworkit"> option3</router-link>
-        </a-menu-item>
-        <a-menu-item key="4">
-          option4
-        </a-menu-item>
-      </a-sub-menu>
-      <a-sub-menu key="sub2">
-        <span slot="title"><a-icon type="laptop" />subnav 2</span>
-        <a-menu-item key="5">
-          option5
-        </a-menu-item>
-        <a-menu-item key="6">
-          option6
-        </a-menu-item>
-        <a-menu-item key="7">
-          option7
-        </a-menu-item>
-        <a-menu-item key="8">
-          option8
-        </a-menu-item>
-      </a-sub-menu>
-      <a-sub-menu key="sub3">
-        <span slot="title"><a-icon type="notification" />subnav 3</span>
-        <a-menu-item key="9">
-          option9
-        </a-menu-item>
-        <a-menu-item key="10">
-          option10
-        </a-menu-item>
-        <a-menu-item key="11">
-          option11
-        </a-menu-item>
-        <a-menu-item key="12">
-          option12
-        </a-menu-item>
-      </a-sub-menu>
+        <sub-menu v-else :key="item.path" :menu-info="item" />
+      </template>
     </a-menu>
   </div>
 </template>
 
 <script>
-export default {};
-</script>
+import SubMenu from './SubMenu'
+export default {
+  components: {
+    'sub-menu': SubMenu,
+  },
+  props:{
+    theme:{
+      type:String ,
+      default:"dark"
+    }
+  },
+  watch:{
+    "$route.path":function(val) {
+      this.selectedKeys = this.selectedKeysMap[val]
+      this.openKeys = this.collapsed ? []: this.openKeysMap[val]
+    }
+  },
+  data() {
+    this.selectedKeysMap = {}
+    this.openKeysMap = {}
+    console.log(this.$router.options.routes)
+    const menuData = this.getMenuData(this.$router.options.routes)
+    
+    return {
+      collapsed: false,
+      list:[],
+      menuData,
+      selectedKeys:this.selectedKeysMap[this.$route.path],
+      openKeys:this.collapsed ? [] : this.openKeysMap[this.$route.path]
 
-<style></style>
+    };
+  },
+  methods: {
+    toggleCollapsed() {
+      this.collapsed = !this.collapsed;
+    },
+    getMenuData(routes = [],pKeys = [],selectKey){
+      let _this = this;
+      const menuList = []
+      console.log(11,routes)
+     routes&&routes.forEach((item)=>{
+        console.log(item)
+        if(item.name && !item.hideMenu){
+          console.log(1)
+          this.openKeysMap[item.path] = pKeys
+          this.selectedKeysMap[item.path] = [selectKey || item.path]
+
+          const newItem = {...item}
+          delete newItem.children
+          if(item.children && !item.hideChildrenMenu){
+            newItem.children = _this.getMenuData(item.children,[...pKeys,item.path])
+          }else{
+            _this.getMenuData(item.children,(selectKey ? pKeys:[...pKeys,item.path]),(selectKey||item.path ))
+          }
+          menuList.push(newItem)
+        }else if(!item.hideMenu && !item.hideChildrenMenu && item.children){
+          console.log(2)
+          menuList.push(..._this.getMenuData(item.children,[...pKeys,item.path]))
+        }
+        console.log(menuList)
+        
+      })
+      return menuList;
+    }
+  },
+};
+</script>

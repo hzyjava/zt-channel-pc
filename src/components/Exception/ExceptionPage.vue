@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import types from "./type";
+import types from "./Type";
 
 export default {
   name: "Exception",
@@ -31,13 +31,13 @@ export default {
   },
   methods: {
     handleToHome() {
-      this.$router.push({ name: "dashboard" });
+      this.$router.push({ name: "home" });
     }
   }
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .exception {
   min-height: 500px;
   height: 80%;
