@@ -8,14 +8,13 @@
     >
       <a-sub-menu key="sub1">
         <span slot="title"><a-icon type="user" />subnav 1</span>
-        <a-menu-item key="1">
-          option1
-        </a-menu-item>
+        <a-menu-item key="1">option1 </a-menu-item>
         <a-menu-item key="2">
-          option2
+          <router-link to="/work"> option2</router-link>
         </a-menu-item>
+
         <a-menu-item key="3">
-          option3
+          <router-link to="/channel/index"> option3</router-link>
         </a-menu-item>
         <a-menu-item key="4">
           option4

@@ -25,13 +25,29 @@ export const constantRouterMap = [
         },
         children: [
           {
-            path: "/channel/work/",
+            path: "/channel/work",
             title: "轨迹管理",
             name: "work",
             component: () => import("@views/channel/index")
+          },
+          {
+            path: "/channel/index",
+            title: "轨迹管理",
+            name: "index",
+            component: () => import("@views/channel/mannerger")
           }
         ]
       }
     ]
+  },
+  {
+    path: "/work",
+    name: "work",
+    component: () => import("@views/channel/index"),
+    meta: {
+      title: "轨迹"
+      // icon: "dashboard",
+      // permission: ["dashboard"]
+    }
   }
 ];
