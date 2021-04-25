@@ -5,45 +5,106 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    component: () => import("@comp/layout/BaseLayout"),
+    component: () => import("@comp/Layout/BaseLayout"),
     name: "home",
     children: [
       {
         path: "/channel",
         name: "channel",
-        // redirect: "/channel/work",
+        title: "轨迹管理",
         component: () => import("@/App"),
         children: [
           {
             path: "/channel/work",
-            name: "cwork",
-            component: () => import("@views/channel/work")
+            name: "work",
+            title: "工作台",
+            component: () => import("@/App"),
+            children: [
+              {
+                path: "/channel/work/tiswork",
+                name: "tiswork",
+                component: () =>
+                  import("@views/Channel/WithTheLineWork/TisWork/TisWork")
+              },
+              {
+                path: "/channel/work/tisworkit",
+                name: "tisworkit",
+                component: () =>
+                  import("@views/Channel/WithTheLineWork/TisWorkIt/TisWorkIt")
+              }
+            ]
           },
           {
-            path: "/channel/mannerger",
-            title: "轨迹管理",
-            name: "cmannerger",
-            component: () => import("@views/channel/mannerger")
+            path: "/channel/query",
+            name: "query",
+            title: "轨迹查询",
+            component: () => import("@/App"),
+            children: [
+              {
+                path: "/channel/query/channeldatastatistical",
+                name: "channeldatastatistical",
+                component: () =>
+                  import(
+                    "@views/Channel/Query/DataStatistical/ChannelDataStatistical"
+                  )
+              },
+              {
+                path: "/channel/query/querylist",
+                name: "querylist",
+                component: () =>
+                  import("@views/Channel/Query/QueryList/ChannelQueryList")
+              }
+            ]
           }
         ]
       },
       {
-        path: "/crm",
-        title: "轨迹管理",
-        name: "crm",
+        path: "/srm",
+        name: "channel",
+        title: "SRM系统",
         component: () => import("@/App"),
-        // component: () => import("@views/channel/mannerger"),
         children: [
           {
-            path: "/crm/work",
-            name: "crmwork",
-            component: () => import("@views/crm/work")
+            path: "/channel/work",
+            name: "work",
+            title: "工作台",
+            component: () => import("@/App"),
+            children: [
+              {
+                path: "/channel/work/tiswork",
+                name: "tiswork",
+                component: () =>
+                  import("@views/Channel/WithTheLineWork/TisWork/TisWork")
+              },
+              {
+                path: "/channel/work/tisworkit",
+                name: "tisworkit",
+                component: () =>
+                  import("@views/Channel/WithTheLineWork/TisWorkIt/TisWorkIt")
+              }
+            ]
           },
           {
-            path: "/crm/mannerger",
-            title: "轨迹管理",
-            name: "crmmannerger",
-            component: () => import("@views/crm/mannerger")
+            path: "/channel/query",
+            name: "query",
+            title: "轨迹查询",
+            component: () => import("@/App"),
+            children: [
+              {
+                path: "/channel/query/channeldatastatistical",
+                name: "channeldatastatistical",
+                component: () =>
+                  import(
+                    "@views/Channel/Query/DataStatistical/ChannelDataStatistical"
+                  )
+              },
+              {
+                path: "/channel/query/querylist",
+                name: "querylist",
+                component: () =>
+                  import("@views/Channel/Query/QueryList/ChannelQueryList")
+              }
+            ]
           }
         ]
       }
@@ -52,7 +113,7 @@ const routes = [
   {
     path: "/404",
     name: "404",
-    component: () => import("@comp/layout/BaseLayout"),
+    component: () => import("@comp/Layout/BaseLayout"),
     meta: {
       title: "轨迹"
     }

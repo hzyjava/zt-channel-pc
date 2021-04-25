@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import Header from "@comp/layout/Header";
-import SiderMenu from "@comp/layout/SiderMenu";
+import Header from "@comp/Layout/Header";
+import SiderMenu from "@comp/Layout/SiderMenu";
 export default {
   components: {
     Header,
