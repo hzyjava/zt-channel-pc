@@ -1,3 +1,9 @@
+/*
+ * @Autor: zhanglp
+ * @Description:
+ * @Date: 2021-04-26 14:20:14
+ * @LastEditTime: 2021-04-26 14:32:31
+ */
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
