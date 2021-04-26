@@ -1,3 +1,9 @@
+<!--
+ * @Autor: zhanglp
+ * @Description: 
+ * @Date: 2021-04-26 14:20:14
+ * @LastEditTime: 2021-04-26 14:29:16
+-->
 <template>
   <div class="exception">
     <div class="img">
@@ -37,7 +43,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .exception {
   min-height: 500px;
   height: 80%;

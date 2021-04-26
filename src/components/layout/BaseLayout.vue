@@ -122,7 +122,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="less">
 .applayout {
   height: 100vh;
   // .right-box{
