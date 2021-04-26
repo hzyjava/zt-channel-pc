@@ -2,14 +2,13 @@
  * @Autor: zhanglp
  * @Description:
  * @Date: 2021-04-26 14:20:14
- * @LastEditTime: 2021-04-26 14:32:31
+ * @LastEditTime: 2021-04-26 15:01:31
  */
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import { Layout, Menu, Icon, Breadcrumb, Button } from "ant-design-vue";
-import "ant-design-vue/dist/antd.css";
 
 Vue.use(Layout);
 Vue.use(Menu);
