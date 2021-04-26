@@ -3,8 +3,7 @@
     <!-- <a-button type="primary" style="margin-bottom: 16px" @click="toggleCollapsed">
       <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
     </a-button> -->
-    
-      <!-- :inline-collapsed="collapsed"  -->
+    <!-- :inline-collapsed="collapsed"  -->
     <a-menu
       :selectedKeys="selectedKeys"
       :openKeys.sync="openKeys"
@@ -12,7 +11,15 @@
       :theme="theme"
     >
       <template v-for="item in menuData">
-        <a-menu-item v-if="!item.children" :key="item.path" @click="()=>{$router.push({path:item.path,query:$route.query})}">
+        <a-menu-item
+          v-if="!item.children"
+          :key="item.path"
+          @click="
+            () => {
+              $router.push({ path: item.path, query: $route.query });
+            }
+          "
+        >
           <a-icon v-if="item.meta.icon" :type="item.meta.icon" />
           <span>{{ item.meta.title }}</span>
         </a-menu-item>
@@ -23,70 +30,82 @@
 </template>
 
 <script>
-import SubMenu from './SubMenu'
+import SubMenu from "./SubMenu";
 export default {
   components: {
-    'sub-menu': SubMenu,
+    "sub-menu": SubMenu
   },
-  props:{
-    theme:{
-      type:String ,
-      default:"dark"
+  props: {
+    theme: {
+      type: String,
+      default: "dark"
     }
   },
-  watch:{
-    "$route.path":function(val) {
-      this.selectedKeys = this.selectedKeysMap[val]
-      this.openKeys = this.collapsed ? []: this.openKeysMap[val]
+  watch: {
+    "$route.path": function(val) {
+      this.selectedKeys = this.selectedKeysMap[val];
+      this.openKeys = this.collapsed ? [] : this.openKeysMap[val];
     }
   },
   data() {
-    this.selectedKeysMap = {}
-    this.openKeysMap = {}
-    console.log(this.$router.options.routes)
-    const menuData = this.getMenuData(this.$router.options.routes)
-    
+    this.selectedKeysMap = {};
+    this.openKeysMap = {};
+    console.log(this.$router.options.routes);
+    const menuData = this.getMenuData(this.$router.options.routes);
+
     return {
       collapsed: false,
-      list:[],
+      list: [],
       menuData,
-      selectedKeys:this.selectedKeysMap[this.$route.path],
-      openKeys:this.collapsed ? [] : this.openKeysMap[this.$route.path]
-
+      selectedKeys: this.selectedKeysMap[this.$route.path],
+      openKeys: this.collapsed ? [] : this.openKeysMap[this.$route.path]
     };
   },
   methods: {
     toggleCollapsed() {
       this.collapsed = !this.collapsed;
     },
-    getMenuData(routes = [],pKeys = [],selectKey){
-      let _this = this;
-      const menuList = []
-      console.log(11,routes)
-     routes&&routes.forEach((item)=>{
-        console.log(item)
-        if(item.name && !item.hideMenu){
-          console.log(1)
-          this.openKeysMap[item.path] = pKeys
-          this.selectedKeysMap[item.path] = [selectKey || item.path]
+    getMenuData(routes = [], pKeys = [], selectKey) {
+      const _this = this;
+      const menuList = [];
+      console.log(11, routes);
+      routes &&
+        routes.forEach(item => {
+          console.log(item);
+          if (item.name && !item.hideMenu) {
+            console.log(1);
+            this.openKeysMap[item.path] = pKeys;
+            this.selectedKeysMap[item.path] = [selectKey || item.path];
 
-          const newItem = {...item}
-          delete newItem.children
-          if(item.children && !item.hideChildrenMenu){
-            newItem.children = _this.getMenuData(item.children,[...pKeys,item.path])
-          }else{
-            _this.getMenuData(item.children,(selectKey ? pKeys:[...pKeys,item.path]),(selectKey||item.path ))
+            const newItem = { ...item };
+            delete newItem.children;
+            if (item.children && !item.hideChildrenMenu) {
+              newItem.children = _this.getMenuData(item.children, [
+                ...pKeys,
+                item.path
+              ]);
+            } else {
+              _this.getMenuData(
+                item.children,
+                selectKey ? pKeys : [...pKeys, item.path],
+                selectKey || item.path
+              );
+            }
+            menuList.push(newItem);
+          } else if (
+            !item.hideMenu &&
+            !item.hideChildrenMenu &&
+            item.children
+          ) {
+            console.log(2);
+            menuList.push(
+              ..._this.getMenuData(item.children, [...pKeys, item.path])
+            );
           }
-          menuList.push(newItem)
-        }else if(!item.hideMenu && !item.hideChildrenMenu && item.children){
-          console.log(2)
-          menuList.push(..._this.getMenuData(item.children,[...pKeys,item.path]))
-        }
-        console.log(menuList)
-        
-      })
+          console.log(menuList);
+        });
       return menuList;
     }
-  },
+  }
 };
 </script>

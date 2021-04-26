@@ -51,7 +51,7 @@ export default {
   },
   data() {
     return {
-      theme:"dark",
+      theme: "dark",
       collapsed: false
     };
   },
