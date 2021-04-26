@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-25 08:39:09
- * @LastEditTime: 2021-04-26 09:51:21
+ * @LastEditTime: 2021-04-26 10:35:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \zt-code\src\components\layout\BaseLayout.vue
@@ -63,9 +63,9 @@
 </template>
 
 <script>
-import Header from "@comp/Layout/Header";
-import MainMenu from "@comp/Layout/MainMenu";
-import SiderMenu from "@comp/Layout/SiderMenu";
+import Header from "@comp/layout/Header";
+import MainMenu from "@comp/layout/MainMenu";
+import SiderMenu from "@comp/layout/SiderMenu";
 export default {
   components: {
     Header,
