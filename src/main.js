@@ -1,20 +1,24 @@
-/*
- * @Autor: zhanglp
- * @Description:
- * @Date: 2021-04-26 14:20:14
- * @LastEditTime: 2021-04-26 15:01:31
- */
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import { Layout, Menu, Icon, Breadcrumb, Button } from "ant-design-vue";
+import {
+  Layout,
+  Menu,
+  Icon,
+  Breadcrumb,
+  Button,
+  Tabs,
+  Radio
+} from "ant-design-vue";
 
 Vue.use(Layout);
 Vue.use(Menu);
 Vue.use(Icon);
 Vue.use(Breadcrumb);
 Vue.use(Button);
+Vue.use(Tabs);
+Vue.use(Radio);
 
 Vue.config.productionTip = false;
 

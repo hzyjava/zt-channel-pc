@@ -1,7 +1,7 @@
 <!--
  * @Author: hezy
  * @Date: 2021-04-26 09:29:11
- * @LastEditTime: 2021-04-26 10:00:01
+ * @LastEditTime: 2021-04-26 14:18:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \zt-code\src\components\Layout\MainMenu.vue
@@ -15,29 +15,13 @@
     >
       <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
     </a-button> -->
-    <a-menu
-      :default-selected-keys="['1']"
-      :default-open-keys="['sub1']"
-      mode="inline"
-      theme="dark"
-      :inline-collapsed="collapsed"
-    >
-      <a-menu-item key="1">
-        <a-icon type="pie-chart" />
-        <span>Option 1</span>
-      </a-menu-item>
+    <!--
+ :selectedKeys="selectedKeys"
+      :openKeys.sync="openKeys" -->
 
-    </a-menu>
-
-    <a-menu
-      :selectedKeys="selectedKeys"
-      :openKeys.sync="openKeys"
-      mode="inline"
-      :theme="theme"
-    >
+    <a-menu mode="inline" :theme="theme">
       <template v-for="item in menuData">
         <a-menu-item
-          v-if="!item.children"
           :key="item.path"
           @click="
             () => {
@@ -48,14 +32,96 @@
           <a-icon v-if="item.meta.icon" :type="item.meta.icon" />
           <span>{{ item.meta.title }}</span>
         </a-menu-item>
-        <sub-menu v-else :key="item.path" :menu-info="item" />
       </template>
     </a-menu>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    theme: {
+      type: String,
+      default: "dark"
+    }
+  },
+  watch: {
+    "$route.path": function(val) {
+      this.selectedKeys = this.selectedKeysMap[val];
+      this.openKeys = this.collapsed ? [] : this.openKeysMap[val];
+    }
+  },
+  data() {
+    this.selectedKeysMap = {};
+    this.openKeysMap = {};
+    const menuData = this.initMenuData(this.$router.options.routes);
+    // console.log(this.$router.options.routes);
+    return {
+      collapsed: false,
+      list: [],
+      menuData,
+      selectedKeys: this.selectedKeysMap[this.$route.path],
+      openKeys: this.collapsed ? [] : this.openKeysMap[this.$route.path]
+    };
+  },
+  methods: {
+    //FIXME
+    initMenuData(routes = []) {
+      let menuList = [];
+      routes &&
+        routes.forEach(item => {
+          const newItem = { ...item };
+          if (newItem.children) {
+            menuList = newItem.children;
+            // item.hideMenu = true;
+            // console.log(menuList);
+          }
+        });
+      return menuList;
+    },
+    getMenuData(routes = [], pKeys = [], selectKey) {
+      const _this = this;
+      const menuList = [];
+      console.log(11, routes);
+      routes &&
+        routes.forEach(item => {
+          console.log(item);
+          if (item.name && !item.hideMenu) {
+            console.log(1);
+            this.openKeysMap[item.path] = pKeys;
+            this.selectedKeysMap[item.path] = [selectKey || item.path];
+
+            const newItem = { ...item };
+            delete newItem.children;
+            if (item.children && !item.hideChildrenMenu) {
+              newItem.children = _this.getMenuData(item.children, [
+                ...pKeys,
+                item.path
+              ]);
+            } else {
+              _this.getMenuData(
+                item.children,
+                selectKey ? pKeys : [...pKeys, item.path],
+                selectKey || item.path
+              );
+            }
+            menuList.push(newItem);
+          } else if (
+            !item.hideMenu &&
+            !item.hideChildrenMenu &&
+            item.children
+          ) {
+            console.log(2);
+            menuList.push(
+              ..._this.getMenuData(item.children, [...pKeys, item.path])
+            );
+          }
+          console.log(menuList);
+        });
+      return menuList;
+    }
+  }
+};
 </script>
 
 <style></style>

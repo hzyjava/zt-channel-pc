@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 220px">
+  <div style="width: 300px">
     <!-- <a-button type="primary" style="margin-bottom: 16px" @click="toggleCollapsed">
       <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
     </a-button> -->
@@ -50,7 +50,7 @@ export default {
   data() {
     this.selectedKeysMap = {};
     this.openKeysMap = {};
-    console.log(this.$router.options.routes);
+    this.initMenuData(this.$router.options.routes);
     const menuData = this.getMenuData(this.$router.options.routes);
 
     return {
@@ -62,18 +62,16 @@ export default {
     };
   },
   methods: {
+    initMenuData(routes = []) {},
     toggleCollapsed() {
       this.collapsed = !this.collapsed;
     },
     getMenuData(routes = [], pKeys = [], selectKey) {
       const _this = this;
       const menuList = [];
-      console.log(11, routes);
       routes &&
         routes.forEach(item => {
-          console.log(item);
           if (item.name && !item.hideMenu) {
-            console.log(1);
             this.openKeysMap[item.path] = pKeys;
             this.selectedKeysMap[item.path] = [selectKey || item.path];
 
@@ -97,12 +95,10 @@ export default {
             !item.hideChildrenMenu &&
             item.children
           ) {
-            console.log(2);
             menuList.push(
               ..._this.getMenuData(item.children, [...pKeys, item.path])
             );
           }
-          console.log(menuList);
         });
       return menuList;
     }
