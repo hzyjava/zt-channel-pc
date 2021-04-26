@@ -1,3 +1,9 @@
+/*
+ * @Autor: zhanglp
+ * @Description:
+ * @Date: 2021-04-26 14:20:14
+ * @LastEditTime: 2021-04-26 17:58:57
+ */
 const path = require("path");
 const webpack = require("webpack");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
@@ -46,7 +52,7 @@ module.exports = {
   },
   chainWebpack: config => {
     config.resolve.alias
-      .set("@$", resolve("src"))
+      .set("@", resolve("src"))
       .set("@api", resolve("src/api"))
       .set("@assets", resolve("src/assets"))
       .set("@comp", resolve("src/components"))
@@ -71,7 +77,6 @@ module.exports = {
       }
     }
   },
-
   devServer: {
     open: true,
     host: "0.0.0.0",
