@@ -49,19 +49,19 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### step
 
-1.配置 antdesign (按需引入，自动化)
+1.配置 antdesign (按需引入，自动化) ok
 
 ####
 
-2.封装组件左边一级菜单栏(view,store,router)
+2.封装组件左边一级菜单栏(view,,router) ok
 
 ####
 
-3.封装二级菜单栏
+3.封装二级菜单栏 ok
 
 ####
 
-4.路由配置跳转
+4.路由配置跳转 ok
 
 ####
 
@@ -114,5 +114,3 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ###
 
 16. 动态加载路由
-
-

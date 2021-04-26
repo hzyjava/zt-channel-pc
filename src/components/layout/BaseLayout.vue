@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-25 08:39:09
- * @LastEditTime: 2021-04-26 14:43:36
+ * @LastEditTime: 2021-04-26 15:29:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \zt-code\src\components\layout\BaseLayout.vue
@@ -35,7 +35,7 @@
               width="250"
               :theme="themeLight"
             >
-              <SiderMenu :theme="themeLight" />
+              <SiderMenu :data="item.children" :theme="themeLight" />
             </a-layout-sider>
           </a-tab-pane>
         </a-tabs>
@@ -110,6 +110,7 @@ export default {
             menuList = newItem.children;
           }
         });
+      console.log(menuList);
       return menuList;
     },
     onCollapse(collapsed, type) {
