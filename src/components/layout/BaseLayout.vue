@@ -1,10 +1,31 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-04-25 08:39:09
+ * @LastEditTime: 2021-04-26 09:51:21
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \zt-code\src\components\layout\BaseLayout.vue
+-->
 <template>
   <div class="applayout">
     <a-layout id="components-layout-demo-top-side-2">
-      <a-layout-header @click="collapsed = !collapsed" class="header">
+      <a-layout-header class="header">
         <Header />
       </a-layout-header>
       <a-layout>
+        <a-layout-sider
+          v-model="collapsedMain"
+          :trigger="null"
+          collapsible
+          breakpoint="lg"
+          collapsed-width="0"
+          @collapse="onCollapse"
+          @breakpoint="onBreakpoint"
+          width="150"
+          style="background: #fff"
+        >
+          <MainMenu></MainMenu>
+        </a-layout-sider>
         <a-layout-sider
           v-model="collapsed"
           :trigger="null"
@@ -13,7 +34,7 @@
           collapsed-width="0"
           @collapse="onCollapse"
           @breakpoint="onBreakpoint"
-          width="256"
+          width="220"
           style="background: #fff"
         >
           <SiderMenu :theme="theme" />
@@ -43,16 +64,19 @@
 
 <script>
 import Header from "@comp/Layout/Header";
+import MainMenu from "@comp/Layout/MainMenu";
 import SiderMenu from "@comp/Layout/SiderMenu";
 export default {
   components: {
     Header,
-    SiderMenu
+    SiderMenu,
+    MainMenu
   },
   data() {
     return {
       theme: "dark",
-      collapsed: false
+      collapsed: false,
+      collapsedMain: false
     };
   },
   methods: {

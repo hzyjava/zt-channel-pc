@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 256px">
+  <div style="width: 220px">
     <!-- <a-button type="primary" style="margin-bottom: 16px" @click="toggleCollapsed">
       <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
     </a-button> -->
