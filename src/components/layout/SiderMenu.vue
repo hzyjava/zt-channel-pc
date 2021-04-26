@@ -39,6 +39,10 @@ export default {
     theme: {
       type: String,
       default: "dark"
+    },
+    data: {
+      type: Array,
+      required: true
     }
   },
   watch: {
@@ -50,8 +54,9 @@ export default {
   data() {
     this.selectedKeysMap = {};
     this.openKeysMap = {};
-    this.initMenuData(this.$router.options.routes);
-    const menuData = this.getMenuData(this.$router.options.routes);
+    // this.initMenuData(this.$router.options.routes);
+    const menuData = this.getMenuData(this.data);
+    // const menuData = this.getMenuData(this.$router.options.routes);
 
     return {
       collapsed: false,
