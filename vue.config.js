@@ -1,9 +1,3 @@
-/*
- * @Autor: hezy
- * @Description:
- * @Date: 2021-04-25 08:39:09
- * @LastEditTime: 2021-04-27 09:45:53
- */
 const path = require("path");
 const webpack = require("webpack");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
@@ -56,7 +50,7 @@ module.exports = {
     // config.plugins.delete("preload");
     config.plugins.delete("prefetch");
     config.resolve.alias
-      .set("@$", resolve("src"))
+      .set("@", resolve("src"))
       .set("@api", resolve("src/api"))
       .set("@assets", resolve("src/assets"))
       .set("@comp", resolve("src/components"))
@@ -81,7 +75,6 @@ module.exports = {
       }
     }
   },
-
   devServer: {
     open: true,
     host: "0.0.0.0",
