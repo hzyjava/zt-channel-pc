@@ -1,27 +1,18 @@
-<!--
- * @Author: hezy
- * @Date: 2021-04-26 09:29:11
- * @LastEditTime: 2021-04-26 16:47:23
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \zt-code\src\components\Layout\MainMenu.vue
--->
-<template
-  ><div style="width: 150px">
-    <!-- <a-button
-      type="primary"
-      style="margin-bottom: 16px"
-      @click="toggleCollapsed"
-    >
+<template>
+  <div style="width: 300px">
+    <!-- <a-button type="primary" style="margin-bottom: 16px" @click="toggleCollapsed">
       <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
     </a-button> -->
-    <!--
- :selectedKeys="selectedKeys"
-      :openKeys.sync="openKeys" -->
-
-    <a-menu mode="inline" :theme="theme">
+    <!-- :inline-collapsed="collapsed"  -->
+    <a-menu
+      :selectedKeys="selectedKeys"
+      :openKeys.sync="openKeys"
+      mode="inline"
+      :theme="theme"
+    >
       <template v-for="item in menuData">
         <a-menu-item
+          v-if="!item.children"
           :key="item.path"
           @click="
             () => {
@@ -32,17 +23,26 @@
           <a-icon v-if="item.meta.icon" :type="item.meta.icon" />
           <span>{{ item.meta.title }}</span>
         </a-menu-item>
+        <sub-menu v-else :key="item.path" :menu-info="item" />
       </template>
     </a-menu>
   </div>
 </template>
 
 <script>
+import SubMenu from "./SubMenu";
 export default {
+  components: {
+    "sub-menu": SubMenu
+  },
   props: {
     theme: {
       type: String,
       default: "dark"
+    },
+    data: {
+      type: Array,
+      required: true
     }
   },
   watch: {
@@ -54,8 +54,10 @@ export default {
   data() {
     this.selectedKeysMap = {};
     this.openKeysMap = {};
-    const menuData = this.initMenuData(this.$router.options.routes);
-    // console.log(this.$router.options.routes);
+    // this.initMenuData(this.$router.options.routes);
+    const menuData = this.getMenuData(this.data);
+    // const menuData = this.getMenuData(this.$router.options.routes);
+
     return {
       collapsed: false,
       list: [],
@@ -65,29 +67,16 @@ export default {
     };
   },
   methods: {
-    //FIXME
-    initMenuData(routes = []) {
-      let menuList = [];
-      routes &&
-        routes.forEach(item => {
-          const newItem = { ...item };
-          if (newItem.children) {
-            menuList = newItem.children;
-            // item.hideMenu = true;
-            // console.log(menuList);
-          }
-        });
-      return menuList;
+    initMenuData(routes = []) {},
+    toggleCollapsed() {
+      this.collapsed = !this.collapsed;
     },
     getMenuData(routes = [], pKeys = [], selectKey) {
       const _this = this;
       const menuList = [];
-      console.log(11, routes);
       routes &&
         routes.forEach(item => {
-          console.log(item);
           if (item.name && !item.hideMenu) {
-            console.log(1);
             this.openKeysMap[item.path] = pKeys;
             this.selectedKeysMap[item.path] = [selectKey || item.path];
 
@@ -111,17 +100,13 @@ export default {
             !item.hideChildrenMenu &&
             item.children
           ) {
-            console.log(2);
             menuList.push(
               ..._this.getMenuData(item.children, [...pKeys, item.path])
             );
           }
-          console.log(menuList);
         });
       return menuList;
     }
   }
 };
 </script>
-
-<style></style>
