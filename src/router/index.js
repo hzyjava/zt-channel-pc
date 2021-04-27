@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "@/store";
 Vue.use(VueRouter);
 
 const routes = [
@@ -150,11 +151,50 @@ const routes = [
   }
 ];
 
+const originalPush = VueRouter.prototype.push;
+
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err);
+};
 const router = new VueRouter({
   mode: "history",
   routes,
   base: process.env.BASE_URL,
   scrollBehavior: () => ({ y: 0 })
 });
+
+router.beforeEach((to, from, next) => {
+  // 记录路由信息
+  store.commit("ROUTE", to);
+  // 添加缓存
+  if (to.meta.keep) {
+    const includeList = store.state.includeList;
+    const isHas = includeList.includes(to.meta.keep);
+    if (!isHas) {
+      includeList.push(to.meta.keep);
+      store.commit("INCLUDELIST", includeList);
+    }
+  }
+  // 缓存刷新管理
+  store.commit("REFRESH", store.state.refresh === "refresh");
+
+  // 登录权限
+  // if (!to.meta.requireAuth) {
+  next();
+  //   return;
+  // }
+  // 验证是否登录
+  // if (store.state.login) {
+  //   next();
+  //   return;
+  // }
+  // 以上都不满足，跳转登录页
+  // next({
+  //   path: "/login",
+  //   query: { redirect: to.fullPath }
+  // });
+});
+
+router.afterEach(route => {});
 
 export default router;

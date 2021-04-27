@@ -16,7 +16,9 @@
           :key="item.path"
           @click="
             () => {
-              $router.push({ path: item.path, query: $route.query });
+              if (item.path !== $route.fullPath) {
+                $router.push({ path: item.path, query: $route.query });
+              }
             }
           "
         >
@@ -67,6 +69,7 @@ export default {
     };
   },
   methods: {
+    onLink: function() {},
     initMenuData(routes = []) {},
     toggleCollapsed() {
       this.collapsed = !this.collapsed;

@@ -55,11 +55,10 @@
         </a-layout-sider> -->
 
         <a-layout class="right-box" style="padding: 0 24px 24px">
-          <a-breadcrumb style="margin: 16px 0">
-            <a-breadcrumb-item>Home</a-breadcrumb-item>
-            <a-breadcrumb-item>List</a-breadcrumb-item>
-            <a-breadcrumb-item>App</a-breadcrumb-item>
-          </a-breadcrumb>
+          <div class="tags-box">
+            <Tags :tags="tags" :current="route.path"></Tags>
+          </div>
+
           <a-layout-content
             class="right-box-content"
             :style="{
@@ -78,14 +77,15 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import Header from "@comp/layout/Header";
-// import MainMenu from "@comp/layout/MainMenu";
+import Tags from "@comp/layout/Tags";
 import SiderMenu from "@comp/layout/SiderMenu";
 export default {
   components: {
     Header,
-    SiderMenu
-    // MainMenu
+    SiderMenu,
+    Tags
   },
   data() {
     const menuData = this.initMenuData(this.$router.options.routes);
@@ -97,6 +97,14 @@ export default {
       tabPosition: "left",
       menuData
     };
+  },
+  computed: {
+    ...mapState({
+      route: state => state.routeData,
+      tags: state => state.tags,
+      refresh: state => state.refresh,
+      includeList: state => state.includeList
+    })
   },
   methods: {
     // TODO: dela
@@ -137,6 +145,8 @@ export default {
   // }
   .slider {
     min-height: 100vh;
+  }
+  .tags-box {
   }
 }
 #components-layout-demo-top-side-2 .logo {

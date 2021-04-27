@@ -19,10 +19,12 @@
         :key="item.path"
         @click="
           () => {
-            parent.$router.push({
-              path: item.path,
-              query: parent.$route.query
-            });
+            if (item.path !== parent.$route.fullPath) {
+              parent.$router.push({
+                path: item.path,
+                query: parent.$route.query
+              });
+            }
           }
         "
       >
@@ -36,7 +38,14 @@
 
 <script>
 export default {
-  props: ["menuInfo"]
+  props: ["menuInfo"],
+  watch: {
+    $route() {}
+  },
+  mounted() {},
+  methods: {
+    onLink: function(v) {}
+  }
 };
 </script>
 
