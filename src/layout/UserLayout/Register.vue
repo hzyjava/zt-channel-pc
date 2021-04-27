@@ -6,13 +6,13 @@
 
 <script>
 export default {
-  name: "Register",
+  name: 'Register',
   data() {
-    return {};
+    return {}
   },
   created() {},
   methods: {}
-};
+}
 </script>
 
 <style lang="less" scoped></style>
