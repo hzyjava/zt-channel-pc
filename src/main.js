@@ -16,6 +16,11 @@ import {
 import './styles/common.less'
 import axios from './utils/request'
 
+const IconFont = Icon.createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_2497116_xm2pt5ickq.js'
+})
+Vue.component('icon-font', IconFont)
+
 Vue.use(Layout)
 Vue.use(Menu)
 Vue.use(Icon)
