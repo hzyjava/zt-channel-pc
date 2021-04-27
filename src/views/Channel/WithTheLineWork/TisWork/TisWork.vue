@@ -1,13 +1,13 @@
 <script>
 export default {
   data() {
-    return {};
+    return {}
   },
   created() {},
   mounted() {},
   methods: {},
   render() {
-    return <div>TISWork</div>;
+    return <div>TISWork</div>
   }
-};
+}
 </script>

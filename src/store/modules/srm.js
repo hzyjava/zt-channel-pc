@@ -1,9 +1,8 @@
-// import Vue from "vue";
-
 const srm = {
+  namespaced: true,
   state: {},
   getters: {},
   mutations: {},
   actions: {}
-};
-export default srm;
+}
+export default srm

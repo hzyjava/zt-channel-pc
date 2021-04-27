@@ -53,6 +53,7 @@ module.exports = {
       .set("@", resolve("src"))
       .set("@api", resolve("src/api"))
       .set("@assets", resolve("src/assets"))
+      .set("@layout", resolve("src/layout"))
       .set("@comp", resolve("src/components"))
       .set("@views", resolve("src/views"));
 
@@ -78,7 +79,7 @@ module.exports = {
   devServer: {
     open: false,
     host: "0.0.0.0",
-    port: 8082,
+    port: 8080,
     https: false,
     overlay: {
       warnings: false,

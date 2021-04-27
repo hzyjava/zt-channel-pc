@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2021-04-25 08:39:09
- * @LastEditTime: 2021-04-26 15:29:06
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \zt-code\src\components\layout\BaseLayout.vue
--->
 <template>
   <div class="applayout">
     <a-layout id="components-layout-demo-top-side-2">
@@ -77,10 +69,10 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import Header from "@comp/layout/Header";
-import Tags from "@comp/layout/Tags";
-import SiderMenu from "@comp/layout/SiderMenu";
+import { mapState } from 'vuex'
+import Header from '@layout/BaseLayout/Header'
+import Tags from '@layout/BaseLayout/Tags'
+import SiderMenu from '@layout/BaseLayout/SiderMenu'
 export default {
   components: {
     Header,
@@ -88,15 +80,15 @@ export default {
     Tags
   },
   data() {
-    const menuData = this.initMenuData(this.$router.options.routes);
+    const menuData = this.initMenuData(this.$router.options.routes)
     return {
-      themeDark: "dark",
-      themeLight: "light",
+      themeDark: 'dark',
+      themeLight: 'light',
       collapsed: false,
       collapsedMain: false,
-      tabPosition: "left",
+      tabPosition: 'left',
       menuData
-    };
+    }
   },
   computed: {
     ...mapState({
@@ -110,25 +102,25 @@ export default {
     // TODO: dela
     // FIXME: dela
     initMenuData(routes = []) {
-      let menuList = [];
+      let menuList = []
       routes &&
         routes.forEach(item => {
-          const newItem = { ...item };
+          const newItem = { ...item }
           if (newItem.children) {
-            menuList = newItem.children;
+            menuList = newItem.children
           }
-        });
-      console.log(menuList);
-      return menuList;
+        })
+      console.log(menuList)
+      return menuList
     },
     onCollapse(collapsed, type) {
-      console.log(collapsed, type);
+      console.log(collapsed, type)
     },
     onBreakpoint(broken) {
-      console.log(broken);
+      console.log(broken)
     }
   }
-};
+}
 </script>
 
 <style lang="less">

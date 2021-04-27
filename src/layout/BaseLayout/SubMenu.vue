@@ -1,10 +1,3 @@
-<!--
- * @Autor: hezy
- * @Description:
- * @Date: 2021-04-26 08:32:51
- * @LastEditTime: 2021-04-26 14:36:45
- * @FilePath: \zt-code\src\components\Layout\SubMenu.vue
--->
 <template functional>
   <a-sub-menu width="200" :key="props.menuInfo.path">
     <span slot="title">
@@ -23,7 +16,7 @@
               parent.$router.push({
                 path: item.path,
                 query: parent.$route.query
-              });
+              })
             }
           }
         "
@@ -38,7 +31,7 @@
 
 <script>
 export default {
-  props: ["menuInfo"],
+  props: ['menuInfo'],
   watch: {
     $route() {}
   },
@@ -46,7 +39,7 @@ export default {
   methods: {
     onLink: function(v) {}
   }
-};
+}
 </script>
 
 <style></style>

@@ -1,9 +1,3 @@
-<!--
- * @Autor: zhanglp
- * @Description: xxx
- * @Date: 2021-04-26 14:20:14
- * @LastEditTime: 2021-04-26 17:18:22
--->
 <template>
   <div id="app">
     <router-view></router-view>

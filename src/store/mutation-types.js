@@ -1,0 +1,8 @@
+export const SET_LOGIN = 'SET_LOGIN'
+export const SET_LOGINOUT = 'SET_LOGINOUT'
+export const SET_BUTTONPERMISSION = 'SET_BUTTONPERMISSION'
+export const SET_QINIUDOMAIN = 'SET_QINIUDOMAIN'
+export const SET_TAGS = 'SET_TAGS'
+export const SET_ROUTE = 'SET_ROUTE'
+export const SET_REFRESH = 'SET_REFRESH'
+export const SET_INCLUDELIST = 'SET_INCLUDELIST'
