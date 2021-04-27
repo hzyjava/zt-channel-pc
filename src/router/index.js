@@ -27,14 +27,18 @@ const routes = [
                 name: "tiswork",
                 meta: { icon: "dashboard", title: "跟进工作台" },
                 component: () =>
-                  import("@views/Channel/WithTheLineWork/TisWork/TisWork")
+                  import(
+                    /* webpackChunkName: "tiswork1" */ "@views/Channel/WithTheLineWork/TisWork/TisWork"
+                  )
               },
               {
                 path: "/channel/work/tisworkit",
                 name: "tisworkit",
                 meta: { icon: "dashboard", title: "跟进工作台IT" },
                 component: () =>
-                  import("@views/Channel/WithTheLineWork/TisWorkIt/TisWorkIt")
+                  import(
+                    /* webpackChunkName: "tisworkit1" */ "@views/Channel/WithTheLineWork/TisWorkIt/TisWorkIt"
+                  )
               }
             ]
           },
@@ -51,6 +55,7 @@ const routes = [
                 meta: { icon: "dashboard", title: "轨迹数据统计" },
                 component: () =>
                   import(
+                    /* webpackChunkName: "channeldatastatistical1" */
                     "@views/Channel/Query/DataStatistical/ChannelDataStatistical"
                   )
               },
@@ -59,7 +64,9 @@ const routes = [
                 name: "querylist",
                 meta: { icon: "dashboard", title: "轨迹查询列表" },
                 component: () =>
-                  import("@views/Channel/Query/QueryList/ChannelQueryList")
+                  import(
+                    /* webpackChunkName: "querylist1" */ "@views/Channel/Query/QueryList/ChannelQueryList"
+                  )
               }
             ]
           }
@@ -84,14 +91,18 @@ const routes = [
                 name: "tiswork",
                 meta: { icon: "dashboard", title: "srm工作台1" },
                 component: () =>
-                  import("@views/Channel/WithTheLineWork/TisWork/TisWork")
+                  import(
+                    /* webpackChunkName: "tiswork" */ "@views/Channel/WithTheLineWork/TisWork/TisWork"
+                  )
               },
               {
                 path: "/srm/work/tisworkit",
                 name: "tisworkit",
                 meta: { icon: "dashboard", title: "srm工作台2" },
                 component: () =>
-                  import("@views/Channel/WithTheLineWork/TisWorkIt/TisWorkIt")
+                  import(
+                    /* webpackChunkName: "tisworkit" */ "@views/Channel/WithTheLineWork/TisWorkIt/TisWorkIt"
+                  )
               }
             ]
           },
@@ -109,7 +120,7 @@ const routes = [
                 meta: { icon: "dashboard", title: "srm统计" },
                 component: () =>
                   import(
-                    "@views/Channel/Query/DataStatistical/ChannelDataStatistical"
+                    /* webpackChunkName: "channeldatastatistical" */ "@views/Channel/Query/DataStatistical/ChannelDataStatistical"
                   )
               },
               {
@@ -117,7 +128,9 @@ const routes = [
                 name: "querylist",
                 meta: { icon: "dashboard", title: "srm查询列表" },
                 component: () =>
-                  import("@views/Channel/Query/QueryList/ChannelQueryList")
+                  import(
+                    /* webpackChunkName: "querylist" */ "@views/Channel/Query/QueryList/ChannelQueryList"
+                  )
               }
             ]
           }
@@ -129,7 +142,8 @@ const routes = [
     path: "*",
     hideMenu: true,
     name: "404",
-    component: () => import("@comp/Exception/404"),
+    component: () =>
+      import(/* webpackChunkName: "404" */ "@comp/Exception/404"),
     meta: {
       title: "轨迹"
     }
@@ -137,7 +151,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  // mode: "hash",
+  mode: "history",
   routes,
   base: process.env.BASE_URL,
   scrollBehavior: () => ({ y: 0 })

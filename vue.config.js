@@ -1,3 +1,9 @@
+/*
+ * @Autor: hezy
+ * @Description:
+ * @Date: 2021-04-25 08:39:09
+ * @LastEditTime: 2021-04-27 09:45:53
+ */
 const path = require("path");
 const webpack = require("webpack");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
@@ -7,8 +13,9 @@ function resolve(dir) {
 }
 
 module.exports = {
+  assetsDir: "assets",
   productionSourceMap: !isProduction,
-  publicPath: "./",
+  publicPath: "/",
   configureWebpack: config => {
     config.performance = {
       hints: false,
@@ -45,6 +52,9 @@ module.exports = {
     }
   },
   chainWebpack: config => {
+    // config.plugins.delete("html");
+    // config.plugins.delete("preload");
+    config.plugins.delete("prefetch");
     config.resolve.alias
       .set("@$", resolve("src"))
       .set("@api", resolve("src/api"))
