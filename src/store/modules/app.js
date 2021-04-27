@@ -1,9 +1,8 @@
-// import Vue from "vue";
-
 const app = {
+  namespaced: true,
   state: {},
   getters: {},
   mutations: {},
   actions: {}
-};
-export default app;
+}
+export default app
