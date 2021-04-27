@@ -7,7 +7,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 // import actions from "./actions";
-import mutations from './mutations'
+import mutation from './mutation'
 import app from './modules/app'
 import user from './modules/user'
 import channel from './modules/channel'
@@ -37,7 +37,7 @@ const state = {
 export default new Vuex.Store({
   state: state,
   getters: {},
-  mutations: mutations,
+  mutation: mutation,
   actions: {},
   modules: {
     app,
