@@ -77,7 +77,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ####
 
-8.封装右侧标签 tab 栏
+8.封装右侧标签 tags 栏
 
 ####
 
@@ -114,5 +114,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ###
 
 16. 动态加载路由
+
 ###
-17. 自定义主题，路由切换过度，动态改变title  OK
+
+17. 自定义主题，路由切换过度，动态改变 title OK

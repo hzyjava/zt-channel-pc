@@ -19,108 +19,108 @@ export default {
   props: {
     current: {
       type: String,
-      default: ""
+      default: ''
     },
     tags: {
       type: Array,
       default: function() {
-        return [];
+        return []
       }
     }
   },
   data() {
-    return {};
+    return {}
   },
   computed: {
     showTags() {
-      return this.tags.length > 0;
+      return this.tags.length > 0
     }
   },
   watch: {
     // 对router进行监听，每当访问router时，对tags的进行修改
     $route(newValue) {
-      console.log("$route", newValue);
-      this.setTags(newValue);
+      console.log('$route', newValue)
+      this.setTags(newValue)
     }
   },
   created() {
     // 第一次进入页面时，修改tag的值
-    this.setTags(this.$route);
+    this.setTags(this.$route)
   },
   // TODO：关闭其他，关闭所有，刷新，关闭单个 悬浮到tags左侧 显示菜单 滚动条
   methods: {
     isActive(path) {
-      console.log("isActive", path, this.$route.fullPath);
-      return path === this.$route.fullPath;
+      console.log('isActive', path, this.$route.fullPath)
+      return path === this.$route.fullPath
     },
     // 设置标签
     setTags(route) {
-      console.log("route", route);
+      console.log('route', route)
       if (!route.name) {
-        return;
+        return
       }
 
       const isExist = this.tags.some(item => {
-        return item.path === route.fullPath;
-      });
+        return item.path === route.fullPath
+      })
       !isExist &&
         this.tags.push({
           title: route.meta.title,
           path: route.fullPath,
           name: route.matched[1].components.default.name
-        });
-      console.log(this.tags);
+        })
+      console.log(this.tags)
     },
     // 跳转指定页面
     onLink: function(tag) {
       if (tag.query) {
-        this.jump(tag.path, tag.query);
-        return;
+        this.jump(tag.path, tag.query)
+        return
       }
-      this.jump(tag.path);
+      this.jump(tag.path)
     },
     tagClose(index) {
       // e.preventDefault();
-      const delItem = this.tags.splice(index, 1)[0];
-      console.log(delItem);
+      const delItem = this.tags.splice(index, 1)[0]
+      console.log(delItem)
       //del self
       if (this.$route.fullPath === delItem.path) {
-        const item = this.tags[index] ? this.tags[index] : this.tags[index - 1];
-        console.log("tagClose", index, delItem, item);
+        const item = this.tags[index] ? this.tags[index] : this.tags[index - 1]
+        console.log('tagClose', index, delItem, item)
         if (item) {
-          delItem.path === this.$route.fullPath && this.$router.push(item.path);
+          delItem.path === this.$route.fullPath && this.$router.push(item.path)
         } else {
           // TODO:报错，需要给默认不关闭tab
-          this.$router.push("/");
+          this.$router.push('/')
         }
       } else {
         //del other
-        console.log("fullPath", this.$route.fullPath);
-        this.$router.push(this.$route.fullPath);
+        console.log('fullPath', this.$route.fullPath)
+        this.$router.push(this.$route.fullPath)
       }
     },
     // 当关闭所有页面时隐藏
     handleTags(command) {
-      command === "other" ? this.closeOther() : this.closeAll();
+      command === 'other' ? this.closeOther() : this.closeAll()
     },
     // 关闭全部标签
     closeAll() {
-      this.tags = [];
-      this.$router.push("/");
+      this.tags = []
+      this.$router.push('/')
     },
     // 关闭其他标签
     closeOther() {
       const curItem = this.tags.filter(item => {
-        return item.path === this.$route.fullPath;
-      });
-      this.tags = curItem;
+        return item.path === this.$route.fullPath
+      })
+      this.tags = curItem
     }
   }
-};
+}
 </script>
 
 <style lang="less">
-@import "@/styles/variable.less";
+@import '@/styles/variable.less';
 .tags-body {
   padding: 5px 6px 0;
   background: @background-color;
@@ -128,12 +128,18 @@ export default {
   overflow-x: auto;
   // overflow-y: hidden;
   white-space: nowrap;
+  display: flex;
+
+  &:-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &:-webkit-scrollbar-thumb {
+    background-color: #d9d9d9;
+  }
+
   .tags:not(.active):hover {
     background: #f8f8f8;
-  }
-  .ant-tag {
-    // display: inline-block;
-    // box-sizing: border-box;
   }
   .ant-tag.active {
     color: #fff;
