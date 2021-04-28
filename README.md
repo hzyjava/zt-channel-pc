@@ -93,7 +93,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ####
 
-12. 引入 iconfont
+12. 引入 iconfont OK
 
 ####
 
