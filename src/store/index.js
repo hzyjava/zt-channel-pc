@@ -16,22 +16,22 @@ import srm from './modules/srm'
 import cms from './modules/cms'
 import tagsView from './modules/tagsView'
 
-const getState = function(name, value) {
-  value = typeof value === 'undefined' ? null : value
-  return (
-    JSON.parse(sessionStorage.getItem(name)) ||
-    JSON.parse(localStorage.getItem(name)) ||
-    value
-  )
-}
+// const getState = function(name, value) {
+//   value = typeof value === 'undefined' ? null : value
+//   return (
+//     JSON.parse(sessionStorage.getItem(name)) ||
+//     JSON.parse(localStorage.getItem(name)) ||
+//     value
+//   )
+// }
 Vue.use(Vuex)
 
 const state = {
-  login: getState('login'), // 用户登录信息,可包含token
-  buttonPermission: getState('buttonPermission'), // 按钮权限
+  login: 'login', // 用户登录信息,可包含token
+  buttonPermission: 'buttonPermission', // 按钮权限
   // tagsView: {
-  visitedViews: getState('visitedViews'),
-  cachedViews: getState('cachedViews')
+  visitedViews: 'visitedViews',
+  cachedViews: 'cachedViews'
   // }
 }
 

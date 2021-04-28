@@ -52,13 +52,19 @@ export default {
     // 对router进行监听，每当访问router时，对tags的进行修改
     $route(newValue) {
       console.log('$route', newValue)
+      console.log('tags==', this.tags)
       this.setTags(newValue)
-      this.moveToCurrentTag()
+      // this.moveToCurrentTag()
     }
   },
   mounted() {
+    console.log('tags||', this.tags)
     // 第一次进入页面时，修改tag的值
-    this.setTags(this.$route)
+    if (this.tags) {
+      this.setTags(this.tags)
+    } else {
+      this.setTags(this.$route)
+    }
   },
   // TODO：关闭其他，关闭所有，刷新，关闭单个 悬浮到tags左侧 显示菜单 滚动条
   methods: {
@@ -104,10 +110,16 @@ export default {
         this.tags.push({
           title: route.meta.title,
           path: route.fullPath,
+          meta: route.meta,
           name: route.matched[1].components.default.name
         })
       console.log(this.tags)
-      this.$store.dispatch('tagsView/addView', this.tags)
+      this.$store.dispatch('tagsView/addView', {
+        title: route.meta.title,
+        path: route.fullPath,
+        meta: route.meta,
+        name: route.matched[1].components.default.name
+      })
     },
     // 跳转指定页面
     onLink: function(tag) {

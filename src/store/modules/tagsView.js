@@ -13,6 +13,7 @@ const mutations = {
   /** add new tag page */
   ADD_VISITED_VIEW: (state, view) => {
     if (state.visitedViews.some(v => v.path === view.path)) return
+    console.log('ADD_VISITED_VIEW', view)
     state.visitedViews.push(
       Object.assign({}, view, { title: view.meta.title || 'no-name' })
     )
