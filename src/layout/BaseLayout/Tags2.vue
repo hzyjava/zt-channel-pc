@@ -20,32 +20,20 @@ export default {
     current: {
       type: String,
       default: ''
+    },
+    tags: {
+      type: Array,
+      default: function() {
+        return []
+      }
     }
-    // tags: {
-    //   type: Array,
-    //   default: function() {
-    //     return []
-    //   }
-    // }
   },
   data() {
-    return {
-      visible: false,
-      top: 0,
-      left: 0,
-      selectedTag: {},
-      affixTags: []
-    }
+    return {}
   },
   computed: {
     showTags() {
       return this.tags.length > 0
-    },
-    visitedViews() {
-      return this.$store.state.tagsView.visitedViews
-    },
-    tags() {
-      return this.$store.state.tagsView.visitedViews
     }
   },
   watch: {
@@ -53,49 +41,24 @@ export default {
     $route(newValue) {
       console.log('$route', newValue)
       this.setTags(newValue)
-      this.moveToCurrentTag()
     }
   },
-  mounted() {
+  created() {
     // 第一次进入页面时，修改tag的值
     this.setTags(this.$route)
   },
   // TODO：关闭其他，关闭所有，刷新，关闭单个 悬浮到tags左侧 显示菜单 滚动条
   methods: {
-    closeMenu() {
-      this.visible = false
-    },
-    handleScroll() {
-      this.closeMenu()
-    },
-    openMenu(tag, e) {
-      const menuMinWidth = 105
-      const offsetLeft = this.$el.getBoundingClientRect().left // container margin left
-      const offsetWidth = this.$el.offsetWidth // container width
-      const maxLeft = offsetWidth - menuMinWidth // left boundary
-      const left = e.clientX - offsetLeft + 15 // 15: margin right
-
-      if (left > maxLeft) {
-        this.left = maxLeft
-      } else {
-        this.left = left
-      }
-
-      this.top = e.clientY
-      this.visible = true
-      this.selectedTag = tag
-    },
     isActive(path) {
       console.log('isActive', path, this.$route.fullPath)
       return path === this.$route.fullPath
     },
-    moveToCurrentTag() {
-      // this.$store.dispatch('tagsView/updateVisitedView', this.$route)
-    },
     // 设置标签
     setTags(route) {
       console.log('route', route)
-      if (!route.name) return
+      if (!route.name) {
+        return
+      }
 
       const isExist = this.tags.some(item => {
         return item.path === route.fullPath
@@ -107,7 +70,6 @@ export default {
           name: route.matched[1].components.default.name
         })
       console.log(this.tags)
-      this.$store.dispatch('tagsView/addView', this.tags)
     },
     // 跳转指定页面
     onLink: function(tag) {

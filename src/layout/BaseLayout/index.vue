@@ -48,7 +48,7 @@
 
         <a-layout class="right-box" style="padding: 0 24px 24px">
           <div class="tags-box">
-            <Tags :tags="tags" :current="route.path"></Tags>
+            <Tags></Tags>
           </div>
 
           <a-layout-content
@@ -91,12 +91,7 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      route: state => state.routeData,
-      tags: state => state.tags,
-      refresh: state => state.refresh,
-      includeList: state => state.includeList
-    })
+    ...mapState({})
   },
   methods: {
     // TODO: dela

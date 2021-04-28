@@ -14,6 +14,7 @@ import channel from './modules/channel'
 import permission from './modules/permission'
 import srm from './modules/srm'
 import cms from './modules/cms'
+import tagsView from './modules/tagsView'
 
 const getState = function(name, value) {
   value = typeof value === 'undefined' ? null : value
@@ -28,10 +29,10 @@ Vue.use(Vuex)
 const state = {
   login: getState('login'), // 用户登录信息,可包含token
   buttonPermission: getState('buttonPermission'), // 按钮权限
-  tags: [], // 标签数组
-  routeData: {}, // 路由信息
-  includeList: [], // 缓存路由
-  refresh: false // 是否刷新缓存
+  // tagsView: {
+  visitedViews: getState('visitedViews'),
+  cachedViews: getState('cachedViews')
+  // }
 }
 
 export default new Vuex.Store({
@@ -45,6 +46,7 @@ export default new Vuex.Store({
     permission,
     channel,
     srm,
-    cms
+    cms,
+    tagsView
   }
 })
