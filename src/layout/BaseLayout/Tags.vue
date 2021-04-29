@@ -1,24 +1,40 @@
 <template>
-  <div class="tags-body">
-    <a-tag
-      v-for="tag in visitedViews"
-      ref="tag"
-      :data="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
-      :key="tag.path"
-      :closable="!isAffix(tag)"
-      class="tag"
-      :class="{ active: isActive(tag) }"
-      @click.native="onLink(tag)"
-      @close="closeSelectedTag(tag)"
+  <div class="tags-header">
+    <div class="tags-body">
+      <a-tag
+        v-for="tag in visitedViews"
+        ref="tag"
+        :data="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
+        :key="tag.path"
+        :closable="!isAffix(tag)"
+        class="tag"
+        :class="{ active: isActive(tag) }"
+        @click.native="onLink(tag)"
+        @close="closeSelectedTag(tag)"
+        @contextmenu.prevent.native="openMenu(tag, $event)"
+      >
+        {{ tag.title }}
+      </a-tag>
+    </div>
+    <ul
+      v-show="visible"
+      :style="{ left: left + 'px', top: top + 'px' }"
+      class="contextmenu"
     >
-      {{ tag.title }}
-    </a-tag>
+      <li @click="refreshSelectedTag(selectedTag)">Refresh</li>
+      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">
+        Close
+      </li>
+      <li @click="closeOthersTags">Close Others</li>
+      <li @click="closeAllTags(selectedTag)">Close All</li>
+    </ul>
   </div>
 </template>
 
 <script>
 // import { mapActions } from 'vuex'
 export default {
+  inject: ['reload'],
   props: {
     current: {
       type: String,
@@ -65,14 +81,61 @@ export default {
   // TODO：关闭其他，关闭所有，刷新，关闭单个 悬浮到tags左侧 显示菜单 滚动条
   methods: {
     // ...mapActions(),
+
+    refreshSelectedTag(view) {
+      this.$store.dispatch('tagsView/delCachedView', view).then(() => {
+        const { fullPath } = view
+        console.log(fullPath)
+        this.reload()
+        // this.$nextTick(() => {
+        // this.$router
+        //   .replace({
+        //     path: fullPath
+        //   })
+        //   .catch(error => {
+        //     if (error.name != 'NavigationDuplicated') {
+        //       throw error
+        //     }
+        //   })
+        // this.$router.push({
+        //   path: fullPath
+        // })
+        // .catch(error => {
+        //   if (error.name != 'NavigationDuplicated') {
+        //     throw error
+        //   }
+        // })
+        // })
+      })
+    },
     closeSelectedTag(view) {
       this.$store
         .dispatch('tagsView/delView', view)
         .then(({ visitedViews }) => {
           if (this.isActive(view)) {
             this.toLastView(visitedViews, view)
+          } else {
           }
+          this.closeMenu()
         })
+    },
+    closeOthersTags() {
+      this.$router.push(this.selectedTag)
+      this.$store
+        .dispatch('tagsView/delOthersViews', this.selectedTag)
+        .then(() => {
+          this.moveToCurrentTag()
+          this.closeMenu()
+        })
+    },
+    closeAllTags(view) {
+      this.$store.dispatch('tagsView/delAllViews').then(({ visitedViews }) => {
+        if (this.affixTags.some(tag => tag.path === view.path)) {
+          return
+        }
+        this.toLastView(visitedViews, view)
+        this.closeMenu()
+      })
     },
     toLastView(visitedViews, view) {
       const latestView = visitedViews.slice(-1)[0]
@@ -143,26 +206,28 @@ export default {
         //
       })
     },
-    // 设置标签
-    setTags(route) {
-      if (!route.name) return
+    openMenu(tag, e) {
+      const menuMinWidth = 105
+      const offsetLeft = this.$el.getBoundingClientRect().left // container margin left
+      const offsetWidth = this.$el.offsetWidth // container width
+      const maxLeft = offsetWidth - menuMinWidth // left boundary
+      const left = e.clientX - offsetLeft + 15 // 15: margin right
 
-      const isExist = this.tags.some(item => {
-        return item.path === route.fullPath
-      })
-      !isExist &&
-        this.tags.push({
-          title: route.meta.title,
-          path: route.fullPath,
-          meta: route.meta,
-          name: route.matched[1].components.default.name
-        })
-      this.$store.dispatch('tagsView/addView', {
-        title: route.meta.title,
-        path: route.fullPath,
-        meta: route.meta,
-        name: route.matched[1].components.default.name
-      })
+      if (left > maxLeft) {
+        this.left = maxLeft
+      } else {
+        this.left = left
+      }
+
+      this.top = e.clientY
+      this.visible = true
+      this.selectedTag = tag
+    },
+    closeMenu() {
+      this.visible = false
+    },
+    handleScroll() {
+      this.closeMenu()
     },
     // 跳转指定页面
     onLink: function(tag) {
@@ -171,23 +236,6 @@ export default {
         return
       }
       this.jump(tag.path)
-    },
-    tagClose(index) {
-      // e.preventDefault();
-      const delItem = this.tags.splice(index, 1)[0]
-      //del self
-      if (this.$route.fullPath === delItem.path) {
-        const item = this.tags[index] ? this.tags[index] : this.tags[index - 1]
-        if (item) {
-          delItem.path === this.$route.fullPath && this.$router.push(item.path)
-        } else {
-          // TODO:报错，需要给默认不关闭tab
-          this.$router.push('/')
-        }
-      } else {
-        //del other
-        this.$router.push(this.$route.fullPath)
-      }
     }
   }
 }

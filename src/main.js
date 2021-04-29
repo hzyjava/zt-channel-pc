@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VueRouter from 'vue-router'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -21,6 +22,13 @@ const IconFont = Icon.createFromIconfontCN({
 })
 Vue.component('icon-font', IconFont)
 
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
+Vue.use(VueRouter)
+
 Vue.use(Layout)
 Vue.use(Menu)
 Vue.use(Icon)
@@ -33,6 +41,7 @@ Vue.use(Tag)
 Vue.mixin(mixins)
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
+
 new Vue({
   router,
   store,

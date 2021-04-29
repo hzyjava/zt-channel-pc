@@ -1,15 +1,31 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view v-if="isRouterAlive"></router-view>
   </div>
 </template>
 <script>
 export default {
+  provide() {
+    return {
+      reload: this.reload
+    }
+  },
+  data() {
+    return {
+      isRouterAlive: true
+    }
+  },
   created() {
     // this.setStore()
-    this.clearStore()
+    // this.clearStore()
   },
   methods: {
+    reload() {
+      this.isRouterAlive = false
+      this.$nextTick(() => {
+        this.isRouterAlive = true
+      })
+    },
     setStore() {
       //在页面加载时读取sessionStorage里的状态信息
       // if (sessionStorage.getItem('store')) {

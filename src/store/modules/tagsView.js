@@ -40,6 +40,7 @@ const mutations = {
     for (const [i, v] of state.visitedViews.entries()) {
       if (v.path === view.path) {
         state.visitedViews.splice(i, 1)
+        setState('visitedViews', state, state.visitedViews)
         break
       }
     }
@@ -47,12 +48,14 @@ const mutations = {
   DEL_CACHED_VIEW: (state, view) => {
     const index = state.cachedViews.indexOf(view.name)
     index > -1 && state.cachedViews.splice(index, 1)
+    setState('cachedViews', state, state.cachedViews)
   },
 
   DEL_OTHERS_VISITED_VIEWS: (state, view) => {
     state.visitedViews = state.visitedViews.filter(v => {
       return v.meta.affix || v.path === view.path
     })
+    setState('visitedViews', state, state.visitedViews)
   },
   DEL_OTHERS_CACHED_VIEWS: (state, view) => {
     const index = state.cachedViews.indexOf(view.name)
@@ -62,15 +65,18 @@ const mutations = {
       // if index = -1, there is no cached tags
       state.cachedViews = []
     }
+    setState('cachedViews', state, state.cachedViews)
   },
 
   DEL_ALL_VISITED_VIEWS: state => {
     // keep affix tags
     const affixTags = state.visitedViews.filter(tag => tag.meta.affix)
     state.visitedViews = affixTags
+    setState('visitedViews', state, state.visitedViews)
   },
   DEL_ALL_CACHED_VIEWS: state => {
     state.cachedViews = []
+    setState('cachedViews', state, state.cachedViews)
   },
 
   UPDATE_VISITED_VIEW: (state, view) => {
@@ -80,6 +86,7 @@ const mutations = {
         break
       }
     }
+    setState('visitedViews', state, state.visitedViews)
   }
 }
 
