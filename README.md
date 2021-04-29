@@ -118,3 +118,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ###
 
 17. 自定义主题，路由切换过度，动态改变 title OK
+
+###
+
+18. 封装图表插件 echart OK

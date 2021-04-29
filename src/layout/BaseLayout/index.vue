@@ -77,7 +77,7 @@ export default {
   components: {
     Header,
     SiderMenu,
-    Tags
+    Tags,
   },
   data() {
     const menuData = this.initMenuData(this.$router.options.routes)
