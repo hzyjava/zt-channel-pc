@@ -1,31 +1,32 @@
-/**
- * @param visitedViews
- * @param cachedViews
- * @description action op mutation op state
- * @use this.$store.dispatch("tagsView/addView", this.$route);
- */
 const state = {
   visitedViews: [],
   cachedViews: []
 }
 
 const mutations = {
-  /** add new tag page */
   ADD_VISITED_VIEW: (state, view) => {
-    if (state.visitedViews.some(v => v.path === view.path)) return
     console.log('ADD_VISITED_VIEW', view)
+
+    if (state.visitedViews.some(v => v.path === view.path)) return
+    // 给原来的路由对象添加属性  title
     state.visitedViews.push(
-      Object.assign({}, view, { title: view.meta.title || 'no-name' })
+      Object.assign({}, view, {
+        title: view.meta.title || 'no-name'
+      })
     )
+    console.log(state.visitedViews)
   },
-  /** add  tag page in cached, filter noname and router not need cache */
   ADD_CACHED_VIEW: (state, view) => {
+    console.log('state.cachedViews', state.cachedViews, view)
+
     if (state.cachedViews.includes(view.name)) return
-    if (!view.meta.noCache) {
+    // 灭有nocache这个字段 就添加 由nocash的就是 不能删除的两个
+    if (!view.meta.noCache && view.name) {
       state.cachedViews.push(view.name)
     }
+    console.log('cachedViews', state.cachedViews)
   },
-  /** delete VISITED  */
+
   DEL_VISITED_VIEW: (state, view) => {
     for (const [i, v] of state.visitedViews.entries()) {
       if (v.path === view.path) {
@@ -34,12 +35,11 @@ const mutations = {
       }
     }
   },
-  /** delete CACHED  */
   DEL_CACHED_VIEW: (state, view) => {
     const index = state.cachedViews.indexOf(view.name)
     index > -1 && state.cachedViews.splice(index, 1)
   },
-  /**  */
+
   DEL_OTHERS_VISITED_VIEWS: (state, view) => {
     state.visitedViews = state.visitedViews.filter(v => {
       return v.meta.affix || v.path === view.path
@@ -57,6 +57,7 @@ const mutations = {
 
   DEL_ALL_VISITED_VIEWS: state => {
     // keep affix tags
+    console.log('DEL_ALL_VISITED_VIEWS')
     const affixTags = state.visitedViews.filter(tag => tag.meta.affix)
     state.visitedViews = affixTags
   },
@@ -75,7 +76,6 @@ const mutations = {
 }
 
 const actions = {
-  /** sync addVisitedView addCachedView */
   addView({ dispatch }, view) {
     dispatch('addVisitedView', view)
     dispatch('addCachedView', view)
@@ -88,6 +88,7 @@ const actions = {
   },
 
   delView({ dispatch, state }, view) {
+    console.log('delView', view)
     return new Promise(resolve => {
       dispatch('delVisitedView', view)
       dispatch('delCachedView', view)
@@ -134,6 +135,7 @@ const actions = {
   },
 
   delAllViews({ dispatch, state }, view) {
+    console.log('delAllViews', view)
     return new Promise(resolve => {
       dispatch('delAllVisitedViews', view)
       dispatch('delAllCachedViews', view)

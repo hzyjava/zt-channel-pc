@@ -15,6 +15,7 @@ import permission from './modules/permission'
 import srm from './modules/srm'
 import cms from './modules/cms'
 import tagsView from './modules/tagsView'
+import getters from './getters'
 
 // const getState = function(name, value) {
 //   value = typeof value === 'undefined' ? null : value
@@ -28,16 +29,12 @@ Vue.use(Vuex)
 
 const state = {
   login: 'login', // 用户登录信息,可包含token
-  buttonPermission: 'buttonPermission', // 按钮权限
-  // tagsView: {
-  visitedViews: 'visitedViews',
-  cachedViews: 'cachedViews'
-  // }
+  buttonPermission: 'buttonPermission' // 按钮权限
 }
 
 export default new Vuex.Store({
   state: state,
-  getters: {},
+  getters: getters,
   mutation: mutation,
   actions: {},
   modules: {
