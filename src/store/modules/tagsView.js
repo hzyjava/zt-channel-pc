@@ -1,30 +1,39 @@
+import { getState, setState } from '../storage'
 const state = {
-  visitedViews: [],
-  cachedViews: []
+  visitedViews: getState('visitedViews') || [],
+  cachedViews: getState('cachedViews') || []
 }
 
 const mutations = {
   ADD_VISITED_VIEW: (state, view) => {
     console.log('ADD_VISITED_VIEW', view)
-
     if (state.visitedViews.some(v => v.path === view.path)) return
     // 给原来的路由对象添加属性  title
-    state.visitedViews.push(
-      Object.assign({}, view, {
-        title: view.meta.title || 'no-name'
-      })
-    )
-    console.log(state.visitedViews)
+    // state.visitedViews.push(
+    //   Object.assign({}, view, {
+    //     title: view.meta.title || 'no-name'
+    //   })
+    // )
+    state.visitedViews.push({
+      title: view.meta.title || 'no-name',
+      fullPath: view.fullPath,
+      meta: {
+        icon: view.meta.icon,
+        title: view.meta.title,
+        name: view.meta.name
+      },
+      path: view.path,
+      query: view.query
+    })
+    setState('visitedViews', state, state.visitedViews)
   },
   ADD_CACHED_VIEW: (state, view) => {
-    console.log('state.cachedViews', state.cachedViews, view)
-
     if (state.cachedViews.includes(view.name)) return
     // 灭有nocache这个字段 就添加 由nocash的就是 不能删除的两个
     if (!view.meta.noCache && view.name) {
       state.cachedViews.push(view.name)
     }
-    console.log('cachedViews', state.cachedViews)
+    setState('cachedViews', state, state.cachedViews)
   },
 
   DEL_VISITED_VIEW: (state, view) => {
@@ -57,7 +66,6 @@ const mutations = {
 
   DEL_ALL_VISITED_VIEWS: state => {
     // keep affix tags
-    console.log('DEL_ALL_VISITED_VIEWS')
     const affixTags = state.visitedViews.filter(tag => tag.meta.affix)
     state.visitedViews = affixTags
   },
@@ -88,7 +96,6 @@ const actions = {
   },
 
   delView({ dispatch, state }, view) {
-    console.log('delView', view)
     return new Promise(resolve => {
       dispatch('delVisitedView', view)
       dispatch('delCachedView', view)

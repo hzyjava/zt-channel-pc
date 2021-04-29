@@ -3,11 +3,9 @@ export default {
   // 登录信息
   [types.SET_LOGIN](state, payload) {
     state.login = payload
-    sessionStorage.login = JSON.stringify(payload)
   },
   [types.SET_LOGINOUT](state, payload) {
     state.login = null
-    sessionStorage.removeItem('login')
   },
   // 按钮权限
   [types.SET_BUTTONPERMISSION](state, payload) {

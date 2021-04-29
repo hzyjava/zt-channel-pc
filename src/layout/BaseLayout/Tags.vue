@@ -1,19 +1,5 @@
 <template>
   <div class="tags-body">
-    <!-- v-if="visitedViews.length != 0" -->
-    <!-- v-for="tag in visitedViews"
-        ref="tag"
-        :key="tag.path"
-        :class="isActive(tag) ? 'active' : ''"
-        :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
-        tag="span"
-        class="tags-view-item"
-         @click.middle.native="!isAffix(tag) ? closeSelectedTag(tag) : ''"
-        @contextmenu.prevent.native="openMenu(tag, $event)"
-         -->
-
-    <!-- @click.native="onLink(tag)"  @close="tagClose(index)" -->
-
     <a-tag
       v-for="tag in visitedViews"
       ref="tag"
@@ -31,18 +17,13 @@
 </template>
 
 <script>
+// import { mapActions } from 'vuex'
 export default {
   props: {
     current: {
       type: String,
       default: ''
     }
-    // tags: {
-    //   type: Array,
-    //   default: function() {
-    //     return []
-    //   }
-    // }
   },
   data() {
     return {
@@ -63,11 +44,8 @@ export default {
     cachedViews() {
       return this.$store.state.tagsView.cachedViews
     },
-    // tags() {
-    //   return this.$store.state.tagsView.visitedViews
-    // },
+
     routes() {
-      // console.log('routes()', this.$store.state.permission.routes)
       return this.$router.options.routes
       // 后台返回的权限路由和自己需要展示的路由（面板形成数组）
       // return this.$store.state.permission.routes
@@ -81,28 +59,12 @@ export default {
     }
   },
   mounted() {
-    console.log(
-      'route',
-      this.$route,
-      'routes  ',
-      this.routes,
-      'visitedViews ',
-      this.visitedViews,
-      'cachedViews',
-      this.cachedViews
-    )
-    // 第一次进入页面时，修改tag的值
     this.initTags()
     this.addTags()
-
-    // if (this.tags) {
-    //   this.setTags(this.tags)
-    // } else {
-    //   this.setTags(this.$route)
-    // }
   },
   // TODO：关闭其他，关闭所有，刷新，关闭单个 悬浮到tags左侧 显示菜单 滚动条
   methods: {
+    // ...mapActions(),
     closeSelectedTag(view) {
       this.$store
         .dispatch('tagsView/delView', view)
@@ -133,13 +95,10 @@ export default {
     },
     // 默认添加 不能删除的tag
     initTags() {
-      console.log('initTags', this.routes, this.$router)
       // this.$router.options.routes
       const affixTags = (this.affixTags = this.filterAffixTags(this.routes))
-      console.log('affixTags', affixTags)
       for (const tag of affixTags) {
         // Must have tag name
-        console.log('tag', tag)
         if (tag.name) {
           this.$store.dispatch('tagsView/addVisitedView', tag)
         }
@@ -147,12 +106,9 @@ export default {
     },
     filterAffixTags(routes) {
       let tags = []
-      console.log('filterAffixTags||', routes)
       routes.forEach(route => {
         // 有过滤字段的
         if (route.meta && route.meta.affix) {
-          // const tagPath = path.resolve(basePath, route.path)
-          // console.log('tagPath', tagPath, route)
           //不能删的路由
           tags.push({
             fullPath: `/${route.path}`,
@@ -163,19 +119,15 @@ export default {
         }
         if (route.children) {
           const tempTags = this.filterAffixTags(route.children, route.path)
-          console.log('tempTags||', tempTags)
           if (tempTags.length >= 1) {
-            console.log('tempTags', tempTags)
             tags = [...tags, ...tempTags]
           }
         }
       })
-      console.log('nocached', tags) // 面板 文档
       return tags
     },
     addTags() {
       // 添加默认的两个
-      console.log('add Tag', this.$route)
       const { name } = this.$route
       if (name) {
         this.$store.dispatch('tagsView/addView', this.$route)
@@ -188,25 +140,11 @@ export default {
     },
     moveToCurrentTag() {
       this.$nextTick(() => {
-        const tags = this.$refs.tag
-        console.log('moveToCurrentTag', tags)
-        // this.$store.dispatch('tagsView/updateVisitedView', this.$route)
-        for (const tag of tags) {
-          console.log(tag)
-          // if (tag.to.path === this.$route.path) {
-          //   // this.$refs.scrollPane.moveToTarget(tag)
-          //   // when query is different then update
-          // if (tag.to.fullPath !== this.$route.fullPath) {
-
-          // }
-          //   break
-          // }
-        }
+        //
       })
     },
     // 设置标签
     setTags(route) {
-      console.log('route', route)
       if (!route.name) return
 
       const isExist = this.tags.some(item => {
@@ -219,7 +157,6 @@ export default {
           meta: route.meta,
           name: route.matched[1].components.default.name
         })
-      console.log(this.tags)
       this.$store.dispatch('tagsView/addView', {
         title: route.meta.title,
         path: route.fullPath,
@@ -238,11 +175,9 @@ export default {
     tagClose(index) {
       // e.preventDefault();
       const delItem = this.tags.splice(index, 1)[0]
-      console.log(delItem)
       //del self
       if (this.$route.fullPath === delItem.path) {
         const item = this.tags[index] ? this.tags[index] : this.tags[index - 1]
-        console.log('tagClose', index, delItem, item)
         if (item) {
           delItem.path === this.$route.fullPath && this.$router.push(item.path)
         } else {
@@ -251,7 +186,6 @@ export default {
         }
       } else {
         //del other
-        console.log('fullPath', this.$route.fullPath)
         this.$router.push(this.$route.fullPath)
       }
     }

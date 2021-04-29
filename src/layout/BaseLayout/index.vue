@@ -31,20 +31,6 @@
             </a-layout-sider>
           </a-tab-pane>
         </a-tabs>
-        <!-- <a-layout-sider
-          v-model="collapsedMain"
-          :trigger="null"
-          collapsible
-          class="sider"
-          breakpoint="lg"
-          collapsed-width="0"
-          @collapse="onCollapse"
-          @breakpoint="onBreakpoint"
-          width="150"
-          :theme="themeDark"
-        >
-          <MainMenu :theme="themeDark"></MainMenu>
-        </a-layout-sider> -->
 
         <a-layout class="right-box" style="padding: 0 24px 24px">
           <div class="tags-box">
@@ -77,7 +63,7 @@ export default {
   components: {
     Header,
     SiderMenu,
-    Tags,
+    Tags
   },
   data() {
     const menuData = this.initMenuData(this.$router.options.routes)
@@ -105,14 +91,13 @@ export default {
             menuList = newItem.children
           }
         })
-      console.log(menuList)
       return menuList
     },
     onCollapse(collapsed, type) {
-      console.log(collapsed, type)
+      // console.log(collapsed, type)
     },
     onBreakpoint(broken) {
-      console.log(broken)
+      // console.log(broken)
     }
   }
 }
