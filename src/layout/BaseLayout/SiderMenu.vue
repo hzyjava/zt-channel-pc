@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 300px">
+  <div class="slider-menu" style="">
     <!-- <a-button type="primary" style="margin-bottom: 16px" @click="toggleCollapsed">
       <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
     </a-button> -->
@@ -113,3 +113,5 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="less"></style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="logo" />
-    <a-menu
+    <!-- <a-menu
       theme="dark"
       mode="horizontal"
       :default-selected-keys="['2']"
@@ -16,12 +16,12 @@
       <a-menu-item key="3">
         nav 3
       </a-menu-item>
-    </a-menu>
+    </a-menu> -->
   </div>
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
 <style></style>

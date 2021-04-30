@@ -1,6 +1,6 @@
 <template>
   <div class="tags-header">
-    <div class="tags-body">
+    <div class="tags-body scroll-container" ref="scrollContainer">
       <a-tag
         v-for="tag in visitedViews"
         ref="tag"
@@ -9,7 +9,7 @@
         :closable="!isAffix(tag)"
         class="tag"
         :class="{ active: isActive(tag) }"
-        @click.native="onLink(tag)"
+        @click.native="onLink(tag, $event)"
         @close="closeSelectedTag(tag)"
         @contextmenu.prevent.native="openMenu(tag, $event)"
       >
@@ -21,18 +21,20 @@
       :style="{ left: left + 'px', top: top + 'px' }"
       class="contextmenu"
     >
-      <li @click="refreshSelectedTag(selectedTag)">Refresh</li>
+      <li @click="refreshSelectedTag(selectedTag)">刷新</li>
       <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">
-        Close
+        关闭
       </li>
-      <li @click="closeOthersTags">Close Others</li>
-      <li @click="closeAllTags(selectedTag)">Close All</li>
+      <li @click="closeOthersTags">关闭其他</li>
+      <li @click="closeAllTags(selectedTag)">关闭所有</li>
     </ul>
   </div>
 </template>
 
 <script>
+// import _ from 'lodash'
 // import { mapActions } from 'vuex'
+import { Debounce } from '@utils/common'
 export default {
   inject: ['reload'],
   props: {
@@ -66,12 +68,29 @@ export default {
       // 后台返回的权限路由和自己需要展示的路由（面板形成数组）
       // return this.$store.state.permission.routes
     }
+    // scrollWrapper() {
+    //   return this.$refs.scrollContainer
+    // }
   },
   watch: {
     // 对router进行监听，每当访问router时，对tags的进行修改
     $route(newValue) {
       this.addTags()
       this.moveToCurrentTag()
+
+      // offsetWidth
+      //  const offsetLeft = this.$el.getBoundingClientRect().left // container margin left
+      // const offsetWidth = this.$el.offsetWidth // container width
+
+      // console.log(this.$refs.tag.getBoundingClientRect().offsetWidth)
+      // this.$refs.scrollContainer.scrollLeft = 500
+    },
+    visible(value) {
+      if (value) {
+        document.body.addEventListener('click', this.closeMenu)
+      } else {
+        document.body.removeEventListener('click', this.closeMenu)
+      }
     }
   },
   mounted() {
@@ -203,26 +222,32 @@ export default {
     },
     moveToCurrentTag() {
       this.$nextTick(() => {
-        //
+        document.querySelector('.tag.active').scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        })
       })
     },
-    openMenu(tag, e) {
-      const menuMinWidth = 105
+    openMenu: Debounce(function(tag, e) {
+      this.visible = false
+      const menuMinWidth = 0
       const offsetLeft = this.$el.getBoundingClientRect().left // container margin left
       const offsetWidth = this.$el.offsetWidth // container width
       const maxLeft = offsetWidth - menuMinWidth // left boundary
-      const left = e.clientX - offsetLeft + 15 // 15: margin right
-
+      const left = e.clientX - offsetLeft + 15 //+ 15 // 15: margin right
       if (left > maxLeft) {
         this.left = maxLeft
       } else {
         this.left = left
       }
 
-      this.top = e.clientY
-      this.visible = true
+      this.top = 12 //e.clientY
+
       this.selectedTag = tag
-    },
+      this.$nextTick(() => {
+        this.visible = true
+      })
+    }, 500),
     closeMenu() {
       this.visible = false
     },
@@ -230,7 +255,29 @@ export default {
       this.closeMenu()
     },
     // 跳转指定页面
-    onLink: function(tag) {
+    onLink: function(tag, e) {
+      // console.log(
+      //   document.querySelector('.tag.active').offsetLeft,
+      //   this.$refs.scrollContainer.getBoundingClientRect().width
+      // )
+      // console.log(this.$el, e.target, e.currentTarget)
+      // this.$el.querySelector(`.tag.active`).scrollIntoView({
+      //   behavior: 'smooth', // 平滑过渡
+      //   block: 'start' // 上边框与视窗顶部平齐。默认值
+      // })
+      this.$nextTick(() => {
+        // this.$refs.scrollContainer.scrollTo(200, 0)
+        e.target.scrollIntoView({
+          behavior: 'smooth', // 平滑过渡
+          block: 'start' // 上边框与视窗顶部平齐。默认值
+        })
+        // document.querySelector('.tag.active').scrollIntoView()
+        // document.querySelector('.tag.active').scrollTo({
+        //   behavior: 'smooth', //平滑过渡
+        //   block: 'start' //上边框与视窗顶部平齐。默认值
+        // })
+      })
+
       if (tag.query) {
         this.jump(tag.path, tag.query)
         return
@@ -241,32 +288,76 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 @import '@/styles/variable.less';
-.tags-body {
-  padding: 5px 6px 0;
-  background: @background-color;
-  border-bottom: 1px solid @primary-color;
-  overflow-x: auto;
-  // overflow-y: hidden;
-  white-space: nowrap;
-  display: flex;
+.tags-header {
+  background: #f7f9fa;
+  position: relative;
+  .tags-body {
+    padding: 8px;
+    background: @background-color;
+    // border-bottom: 1px solid @primary-color;
+    overflow-x: auto;
+    // overflow-y: hidden;
+    white-space: nowrap;
+    display: flex;
+    // position: relative;
 
-  &:-webkit-scrollbar {
-    width: 4px;
+    // &:-webkit-scrollbar {
+    //   width: 4px;
+    // }
+
+    // &:-webkit-scrollbar-thumb {
+    //   background-color: #d9d9d9;
+    // }
+
+    .tags:not(.active):hover {
+      background: #f8f8f8;
+    }
+    .ant-tag.active {
+      color: #fff;
+      border: 1px solid #026dc6;
+      background-color: #026dc6 !important;
+    }
   }
 
-  &:-webkit-scrollbar-thumb {
-    background-color: #d9d9d9;
+  /* 滚动槽 */
+  .tags-body::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
   }
-
-  .tags:not(.active):hover {
-    background: #f8f8f8;
+  .tags-body::-webkit-scrollbar-track {
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.06);
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.08);
   }
-  .ant-tag.active {
-    color: #fff;
-    border: 1px solid #026dc6;
-    background-color: #026dc6 !important;
+  /* 滚动条滑块 */
+  .tags-body::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.12);
+    -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  .contextmenu {
+    margin: 0;
+    // width: 100px;
+    background: #fff;
+    z-index: 3000;
+    position: absolute;
+    list-style-type: none;
+    padding: 5px 0;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #333;
+    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+    li {
+      margin: 0;
+      padding: 7px 16px;
+      cursor: pointer;
+      &:hover {
+        background: #eee;
+      }
+    }
   }
 }
 </style>
