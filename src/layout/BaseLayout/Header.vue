@@ -1,23 +1,10 @@
 <template>
-  <div>
-    <div class="logo" />
-    <!-- <a-menu
-      theme="dark"
-      mode="horizontal"
-      :default-selected-keys="['2']"
-      :style="{ lineHeight: '64px' }"
-    >
-      <a-menu-item key="1">
-        nav 1
-      </a-menu-item>
-      <a-menu-item key="2">
-        nav 2
-      </a-menu-item>
-      <a-menu-item key="3">
-        nav 3
-      </a-menu-item>
-    </a-menu> -->
-  </div>
+  <a-layout-header class="header">
+    <div class="logo">
+      <img src="https://www.ztn.cn/img/new/favicon.ico?v=1012" />
+    </div>
+    <div class="navMenu"></div>
+  </a-layout-header>
 </template>
 
 <script>

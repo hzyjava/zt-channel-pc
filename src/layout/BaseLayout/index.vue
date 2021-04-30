@@ -1,9 +1,8 @@
 <template>
   <div class="applayout">
     <a-layout id="components-layout-demo-top-side-2">
-      <a-layout-header class="header">
-        <Header />
-      </a-layout-header>
+      <Header />
+
       <a-layout class="slider ">
         <a-tabs
           :style="{ width: 'px' }"
@@ -17,8 +16,8 @@
             v-for="item in menuData"
           >
             <span slot="tab">
-              <icon-font class="self-icon fz-44" type="icon-fuwushang" />
-              {{ item.meta.title }}
+              <icon-font class="self-icon fz-44" type="icon-tool_1" />
+              <span>{{ item.meta.title }}</span>
             </span>
             <a-layout-sider
               class="sider"
@@ -115,12 +114,17 @@ export default {
   height: 100%;
   .header {
     padding: 0;
+    display: flex;
     .logo {
       width: 106px;
       height: 64px;
-      background: rgba(255, 255, 255, 0.2);
-      // margin: 16px 28px 16px 0;
-      float: left;
+      text-align: center;
+      img {
+        width: 40px;
+      }
+    }
+    .navMenu {
+      flex: 1;
     }
   }
 
@@ -134,7 +138,7 @@ export default {
       overflow: visible;
     }
     .ant-tabs .ant-tabs-left-bar .ant-tabs-nav-container {
-      background: @background-main-color;
+      background: #000;
     }
 
     .ant-tabs-nav .ant-tabs-tab:hover {
@@ -149,7 +153,6 @@ export default {
       font-weight: 500;
     }
     .ant-tabs .ant-tabs-left-bar .ant-tabs-ink-bar {
-      background: white;
       opacity: 0.5;
     }
     .ant-tabs .ant-tabs-left-content {

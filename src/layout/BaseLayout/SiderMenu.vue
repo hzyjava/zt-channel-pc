@@ -22,7 +22,8 @@
             }
           "
         >
-          <a-icon v-if="item.meta.icon" :type="item.meta.icon" />
+          <!-- <a-icon v-if="item.meta.icon" :type="item.meta.icon" /> -->
+          <icon-font type="icon-file"></icon-font>
           <span>{{ item.meta.title }}</span>
         </a-menu-item>
         <sub-menu v-else :key="item.path" :menu-info="item" />
