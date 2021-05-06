@@ -12,7 +12,18 @@ import {
   Button,
   Tabs,
   Radio,
-  Tag
+  Tag,
+  Form,
+  Input,
+  Select,
+  Checkbox,
+  Cascader,
+  DatePicker,
+  InputNumber,
+  Modal,
+  Row,
+  Col,
+  Tooltip
 } from 'ant-design-vue'
 import './styles/common.less'
 import axios from './utils/request'
@@ -37,6 +48,17 @@ Vue.use(Breadcrumb)
 Vue.use(Button)
 Vue.use(Tabs)
 Vue.use(Tag)
+Vue.use(Form)
+Vue.use(Input)
+Vue.use(Select)
+Vue.use(Checkbox)
+Vue.use(Cascader)
+Vue.use(DatePicker)
+Vue.use(InputNumber)
+Vue.use(Modal)
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Tooltip)
 
 Vue.mixin(mixins)
 Vue.config.productionTip = false

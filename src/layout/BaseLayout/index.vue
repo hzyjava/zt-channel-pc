@@ -136,6 +136,7 @@ export default {
     }
     .self-tab.ant-tabs {
       overflow: visible;
+      min-width: 357px;
     }
     .ant-tabs .ant-tabs-left-bar .ant-tabs-nav-container {
       background: #000;

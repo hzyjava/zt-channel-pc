@@ -1,13 +1,13 @@
 <script>
 export default {
   data() {
-    return {};
+    return {}
   },
   created() {},
   mounted() {},
   methods: {},
   render() {
-    return <div>tisworkit</div>;
+    return <div>111</div>
   }
-};
+}
 </script>

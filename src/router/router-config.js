@@ -48,7 +48,8 @@ export const routes = [
                 meta: { icon: 'dashboard', title: '跟进工作台' },
                 component: () =>
                   import(
-                    /* webpackChunkName: "tiswork1" */ '@views/Channel/WithTheLineWork/TisWork/TisWork'
+                    /* webpackChunkName: "tiswork1" */ '@comp/Form/Form' /* '@views/Channel/WithTheLineWork/TisWork/TisWork' */
+                    /* webpackChunkName: "tiswork1" */
                   )
               },
               {
@@ -100,22 +101,22 @@ export const routes = [
           {
             path: '/srm/work',
             name: 'work',
-            meta: { icon: 'dashboard', title: 'srm工作台' },
+            meta: { icon: 'dashboard', title: '供应商管理' },
             component: () => import('@/App'),
             children: [
               {
                 path: '/srm/work/tiswork',
                 name: 'tiswork',
-                meta: { icon: 'dashboard', title: 'srm工作台1' },
+                meta: { icon: 'dashboard', title: '签约服务商管理' },
                 component: () =>
                   import(
-                    /* webpackChunkName: "tiswork" */ '@views/Channel/WithTheLineWork/TisWork/TisWork'
+                    /* webpackChunkName: "tiswork" */ '@views/SRM/ContracteServiceProvider/ContracteServiceProvider'
                   )
               },
               {
                 path: '/srm/work/tisworkit',
                 name: 'tisworkit',
-                meta: { icon: 'dashboard', title: 'srm工作台2' },
+                meta: { icon: 'dashboard', title: '末端服务商管理' },
                 component: () =>
                   import(
                     /* webpackChunkName: "tisworkit" */ '@views/Channel/WithTheLineWork/TisWorkIt/TisWorkIt'
