@@ -27,6 +27,17 @@ router.beforeEach((to, from, next) => {
   next()
 })
 router.afterEach(() => {
+  const bodySrcollTop = document.body.scrollTop
+
+  if (bodySrcollTop !== 0) {
+    document.body.scrollTop = 0
+    return
+  }
+  const docSrcollTop = document.documentElement.scrollTop
+  console.log(bodySrcollTop, docSrcollTop)
+  if (docSrcollTop !== 0) {
+    document.documentElement.scrollTop = 0
+  }
   NProgress.done()
 })
 

@@ -34,13 +34,13 @@ export const routes = [
         path: '/channel',
         name: 'channel',
         meta: { icon: 'dashboard', title: '轨迹管理' },
-        component: () => import('@/App'),
+        component: { render: h => h('router-view') },
         children: [
           {
             path: '/channel/work',
             name: 'work',
             meta: { icon: 'dashboard', title: '工作台' },
-            component: () => import('@/App'),
+            component: { render: h => h('router-view') },
             children: [
               {
                 path: '/channel/work/tiswork',
@@ -67,7 +67,7 @@ export const routes = [
             path: '/channel/query',
             name: 'query',
             meta: { icon: 'dashboard', title: '轨迹查询' },
-            component: () => import('@/App'),
+            component: { render: h => h('router-view') },
             children: [
               {
                 path: '/channel/query/channeldatastatistical',
@@ -96,13 +96,13 @@ export const routes = [
         path: '/srm',
         name: 'srm',
         meta: { icon: 'dashboard', title: 'SRM系统' },
-        component: () => import('@/App'),
+        component: { render: h => h('router-view') },
         children: [
           {
             path: '/srm/work',
             name: 'work',
             meta: { icon: 'dashboard', title: '供应商管理' },
-            component: () => import('@/App'),
+            component: { render: h => h('router-view') },
             children: [
               {
                 path: '/srm/work/tiswork',
@@ -129,7 +129,7 @@ export const routes = [
             name: 'query',
             meta: { icon: 'dashboard', title: 'srm轨迹查询' },
             // hideChildrenMenu:true,
-            component: () => import('@/App'),
+            component: { render: h => h('router-view') },
             children: [
               {
                 path: '/srm/query/channeldatastatistical',

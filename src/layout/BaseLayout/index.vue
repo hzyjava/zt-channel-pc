@@ -45,7 +45,7 @@
             class="right-box-content"
             :style="{
               background: '#fff',
-              padding: '24px',
+
               margin: 0,
               minHeight: '280px'
             }"
@@ -112,6 +112,15 @@ export default {
 
 .applayout {
   height: 100%;
+  .tags-box {
+    position: fixed !important;
+    right: 40px;
+    left: 381px;
+    z-index: 99;
+  }
+  .right-box-content {
+    padding: 48px 24px 24px 24px;
+  }
   .header {
     padding: 0;
     display: flex;
