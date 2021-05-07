@@ -10,7 +10,8 @@ module.exports = {
   plugins: ['html'],
   rules: {
     'standard/no-callback-literal': 0,
-    indent: ['off', 8, 10, 12],
+    // indent: ['off', 8, 10, 12],
+    indent: ['error', 2, { ignoredNodes: ['ConditionalExpression'] }],
     'generator-star-spacing': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
